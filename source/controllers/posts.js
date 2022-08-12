@@ -183,17 +183,6 @@ const updateStatus2 = async (req, res, next) => {
     return res.status(200).json({
       message: "Updated successfully"
     });*/
-axios.get('https://web.peacefulvanilla.club/maps/tiles/players.json')
-.then(function (response) {
-	 return res.status(200).json(response);
-  })
- .catch(function (error) {
-const json = `{
-	  "error": ` + error.message.toString() + `,
-	  }`
-	  console.error(error);
-     return res.status(200).json(json);
-  });
 };
 
 // updating a post
