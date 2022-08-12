@@ -1,0 +1,23 @@
+
+    {
+  "error1": {
+    "text": "DiscordAPIError: Unknown interaction",
+    "timestamp": "Mon Jun 06 2022 14:53:20 GMT+0000 (Coordinated Universal Time)"
+  },
+  "error2": {
+    "text": "Error: aborted",
+    "timestamp": "Sun Jun 05 2022 09:53:51 GMT+0000 (Coordinated Universal Time)"
+  },
+  "error3": {
+    "text": "ReferenceError: cons is not defined",
+    "timestamp": "Fri Jun 03 2022 09:30:14 GMT+0100 (British Summer Time)"
+  },
+  "error4": {
+    "text": "none",
+    "timestamp": "none"
+  },
+  "error5": {
+    "text": "none",
+    "timestamp": "none"
+  }
+}

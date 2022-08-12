@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="/icon.ico" rel="icon" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+     window.onload = setTimeout(() => {
+      window.location.reload(1);
+    }, 60 * 1000);
+
+    </script>
+    <style>
+      @charset "utf-8";
+      /* CSS Document */
+
+      .button {
+        background-color: #04aa6d;
+        border: none;
+        color: white;
+        padding: 20px;
+        text-align: left;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        font-family: "Source Sans Pro", sans-serif;
+        margin: 4px 2px;
+        width: auto;
+      }
+
+      .button1 {
+        border-radius: 8px;
+      }
+
+      p,
+      label,
+      a,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Source Sans Pro", sans-serif;
+        color: white;
+      }
+
+      .center {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .left {
+        margin-right: auto;
+      }
+
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 16px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #000000;
+      }
+      
+      tr:nth-child(odd) {
+        background-color: #2b2b2b;
+      }
+    </style>
+
+    <meta charset="utf-8" />
+    <title>StatusPage</title>
+    
+    <script>
+     window.onload = overviewgetter() 
+       async function overviewgetter() {
+          
+          var json = '';
+
+          
+          await $.getJSON('/info', async function(data) { 
+            var a = new Date(); // Current date now.
+            var b = new Date(`${data.timestamp}`); // Start of 2010.
+            var c = (a-b); // Difference in milliseconds.
+            var d = Math.round(c  / 60000);
+            
+            
+            
+            document.getElementById('overview-details').innerText = 'Last Recieved Update: ' + b.toTimeString()
+            const button = document.getElementById('status_overview')
+            if(d > 5) {
+              document.getElementById('overview').innerText = 'Service hasn\'t pinged in a while...';
+              button.setAttribute("style", "background-color: red")
+            } else if(data.status === "on") {
+              button.setAttribute("style", "background-color: green")
+            document.getElementById('overview').innerText = 'All Systems Working!';
+            } else if(data.status === "error") {
+              document.getElementById('overview').innerText = 'There\'s a minor outage somewhere!';
+              button.setAttribute("style", "background-color: orange")
+            } else if(data.status === "fatal") {
+              document.getElementById('overview').innerText = 'There\'s a major outage with the Service! Oh no!';
+              button.setAttribute("style", "background-color: red")
+            } else {
+              document.getElementById('overview').innerText = 'Couldn\'t get the bots status. Maybe try again?';
+              button.setAttribute("style", "background-color: grey")
+            }
+          })
+         await $.getJSON('https://discordstatus.com/api/v2/status.json', async function(data) {
+           if(data.status.indicator === 'none') {
+           document.getElementById('DiscStat').innerText = `${data.status.description}`
+           } else {
+             document.getElementById('DiscStat').innerText = `${data.status.description} (${data.status.indicator})`
+           }
+         })
+     }
+    </script>
+  </head>
+
+  <body style="background-color: #383838;">
+    <h1>LlamaBot StatusPage</h1>
+    <button
+      id="status_overview"
+      class="button button1"
+      style="background-color: grey"
+    >
+      <p id="overview">Fetching Status... Please wait!</p>
+      <p id="overview-details"></p>
+    </button>
+    <p>
+      Discord Status: <a id="DiscStat" >Fetching status... Please wait!</a>
+    </p>
+
+    <br /><br /><br /><br /><label for="myCanvas"
+      >Problems reported in the last 24 hours:</label
+    ><br />
+    <img style="width: 640px; height: 360px; border: 3px solid black;" src="https://cdn.glitch.global/f5b585ed-257e-45fe-b126-5e715deab07d/underconstructionpng.png?v=1652521741768" ></img>
+    <canvas
+      id="myCanvas"
+      width="0"
+      height="0"
+      style="border: 1px solid black; background-color: #ffffff;"
+    >
+      
+      
+      <script>
+         
+
+        function LineChart(con) {
+          // user defined properties
+          this.canvas = document.getElementById(con.canvasId);
+          this.minX = con.minX;
+          this.minY = con.minY;
+          this.maxX = con.maxX;
+          this.maxY = con.maxY;
+          this.unitsPerTickX = con.unitsPerTickX;
+          this.unitsPerTickY = con.unitsPerTickY;
+
+          // constants
+          this.padding = 10;
+          this.tickSize = 10;
+          this.axisColor = "#555";
+          this.pointRadius = 5;
+          this.font = "12pt Calibri";
+
+          this.fontHeight = 12;
+
+          // relationships
+          this.context = this.canvas.getContext("2d");
+          
+          this.rangeX = this.maxX - this.minY;
+          this.rangeY = this.maxY - this.minY;
+          this.numXTicks = Math.round(this.rangeX / this.unitsPerTickX);
+          this.numYTicks = Math.round(this.rangeY / this.unitsPerTickY);
+          this.x = this.getLongestValueWidth() + this.padding * 2;
+          this.y = this.padding * 2;
+          this.width = this.canvas.width - this.x - this.padding * 2;
+          this.height =
+            this.canvas.height - this.y - this.padding - this.fontHeight;
+          this.scaleX = this.width / this.rangeX;
+          this.scaleY = this.height / this.rangeY;
+
+          // draw x y axis and tick marks
+          this.drawXAxis();
+          this.drawYAxis();
+        }
+
+        LineChart.prototype.getLongestValueWidth = function () {
+          this.context.font = this.font;
+          var longestValueWidth = 0;
+          for (var n = 0; n <= this.numYTicks; n++) {
+            var value = this.maxY - n * this.unitsPerTickY;
+            longestValueWidth = Math.max(
+              longestValueWidth,
+              this.context.measureText(value).width
+            );
+          }
+          return longestValueWidth;
+        };
+
+        LineChart.prototype.drawXAxis = function () {
+          var context = this.context;
+          context.save();
+          context.beginPath();
+          context.moveTo(this.x, this.y + this.height);
+          context.lineTo(this.x + this.width, this.y + this.height);
+          context.strokeStyle = this.axisColor;
+          context.lineWidth = 2;
+          context.stroke();
+
+          // draw tick marks
+          for (var n = 0; n < this.numXTicks; n++) {
+            context.beginPath();
+            context.moveTo(
+              ((n + 1) * this.width) / this.numXTicks + this.x,
+              this.y + this.height
+            );
+            context.lineTo(
+              ((n + 1) * this.width) / this.numXTicks + this.x,
+              this.y + this.height - this.tickSize
+            );
+            context.stroke();
+          }
+
+          // draw labels
+          context.font = this.font;
+          context.fillStyle = "black";
+          context.textAlign = "center";
+          context.textBaseline = "middle";
+
+          for (var n = 0; n < this.numXTicks; n++) {
+            var label = Math.round(((n + 1) * this.maxX) / this.numXTicks);
+            context.save();
+            context.translate(
+              ((n + 1) * this.width) / this.numXTicks + this.x,
+              this.y + this.height + this.padding
+            );
+            context.fillText(label, 0, 0);
+            context.restore();
+          }
+          context.restore();
+        };
+
+        LineChart.prototype.drawYAxis = function () {
+          var context = this.context;
+          context.save();
+          context.save();
+          context.beginPath();
+          context.moveTo(this.x, this.y);
+          context.lineTo(this.x, this.y + this.height);
+          context.strokeStyle = this.axisColor;
+          context.lineWidth = 2;
+          context.stroke();
+          context.restore();
+
+          // draw tick marks
+          for (var n = 0; n < this.numYTicks; n++) {
+            context.beginPath();
+            context.moveTo(this.x, (n * this.height) / this.numYTicks + this.y);
+            context.lineTo(
+              this.x + this.tickSize,
+              (n * this.height) / this.numYTicks + this.y
+            );
+            context.stroke();
+          }
+
+          // draw values
+          context.font = this.font;
+          context.fillStyle = "black";
+          context.textAlign = "right";
+          context.textBaseline = "middle";
+
+          for (var n = 0; n < this.numYTicks; n++) {
+            var value = Math.round(
+              this.maxY - (n * this.maxY) / this.numYTicks
+            );
+            context.save();
+            context.translate(
+              this.x - this.padding,
+              (n * this.height) / this.numYTicks + this.y
+            );
+            context.fillText(value, 0, 0);
+            context.restore();
+          }
+          context.restore();
+        };
+
+        LineChart.prototype.drawLine = function (data, color, width) {
+          var context = this.context;
+          context.save();
+          
+          this.transformContext();
+          context.lineWidth = width;
+          context.strokeStyle = color;
+          context.fillStyle = color;
+          context.beginPath();
+          context.moveTo(data[0].x * this.scaleX, data[0].y * this.scaleY);
+
+          for (var n = 0; n < data.length; n++) {
+            var point = data[n];
+
+            // draw segment
+            context.lineTo(point.x * this.scaleX, point.y * this.scaleY);
+            context.stroke();
+            context.closePath();
+            context.beginPath();
+            context.arc(
+              point.x * this.scaleX,
+              point.y * this.scaleY,
+              this.pointRadius,
+              0,
+              2 * Math.PI,
+              false
+            );
+            context.fill();
+            context.closePath();
+
+            // position for next segment
+            context.beginPath();
+            context.moveTo(point.x * this.scaleX, point.y * this.scaleY);
+          }
+          context.restore();
+        };
+
+        LineChart.prototype.transformContext = function () {
+          var context = this.context;
+
+          // move context to center of canvas
+          this.context.translate(this.x, this.y + this.height);
+
+          // invert the y scale so that that increments
+          // as you move upwards
+          context.scale(1, -1);
+        };
+
+        
+          
+          async function createGraph() {
+          
+          
+          
+          await $.getJSON('/info', async function(data) { 
+            var json = '';
+            json = data
+         
+
+       
+        //console.log(json)
+        var one = json.graph.one,
+          two = json.graph.two,
+          three = json.graph.three,
+          four = json.graph.four,
+          five = json.graph.five,
+          six = json.graph.six,
+          seven = json.graph.seven,
+          eight = json.graph.eight,
+          nine = json.graph.nine,
+          ten = json.graph.ten,
+          eleven = json.graph.tenone,
+          twelve = json.graph.tentwo,
+          thirteen = json.graph.tenthree,
+          fourteen = json.graph.tenfour,
+          fifteen = json.graph.tenfive,
+          sixteen = json.graph.tensix,
+          seventeen = json.graph.tenseven,
+          eighteen = json.graph.teneight,
+          nineteen = json.graph.tennine,
+          twenty = json.graph.twenty,
+          twentyone = json.graph.twentyone,
+          twentytwo = json.graph.twentytwo,
+          twentythree = json.graph.twentythree,
+          twentyfour = json.graph.twentyfour;
+          
+          var myLineChart = new LineChart({
+            canvasId: "myCanvas",
+            minX: 1,
+            minY: 0,
+            maxX: 24,
+            maxY: 10,
+            unitsPerTickX: 1,
+            unitsPerTickY: 1,
+          });
+
+          var data = [
+            {
+              x: 1,
+              y: one,
+            },
+            {
+              x: 2,
+              y: two,
+            },
+            {
+              x: 3,
+              y: three,
+            },
+            {
+              x: 4,
+              y: four,
+            },
+            {
+              x: 5,
+              y: five,
+            },
+            {
+              x: 6,
+              y: six,
+            },
+            {
+              x: 7,
+              y: seven,
+            },
+            {
+              x: 8,
+              y: eight,
+            },
+            {
+              x: 9,
+              y: nine,
+            },
+            {
+              x: 10,
+              y: ten,
+            },
+            {
+              x: 11,
+              y: eleven,
+            },
+            {
+              x: 12,
+              y: twelve,
+            },
+            {
+              x: 13,
+              y: thirteen,
+            },
+            {
+              x: 14,
+              y: fourteen,
+            },
+            {
+              x: 15,
+              y: fifteen,
+            },
+            {
+              x: 16,
+              y: sixteen,
+            },
+            {
+              x: 17,
+              y: seventeen,
+            },
+            {
+              x: 18,
+              y: eighteen,
+            },
+            {
+              x: 19,
+              y: nineteen,
+            },
+            {
+              x: 20,
+              y: twenty,
+            },
+            {
+              x: 21,
+              y: twentyone,
+            },
+            {
+              x: 22,
+              y: twentytwo,
+            },
+            {
+              x: 23,
+              y: twentythree,
+            },
+            {
+              x: 24,
+              y: twentyfour,
+            },
+          ];
+           var canvas = document.getElementById("myCanvas");
+          var context = canvas.getContext("2d");
+          //var img = document.getElementById("scream");
+          return context.drawImage('https://cdn.glitch.global/f5b585ed-257e-45fe-b126-5e715deab07d/underconstructionpng.png?v=1652521741768', 10, 10)
+          //myLineChart.drawLine(data, "lightblue", 3);
+          });
+        };
+        window.onload = async function() { await createGraph() }
+      </script>
+    </canvas>
+    <br /><br />
+    
+    <script>
+      window.onload = async function() {
+        await $.getJSON('/errors', async function(data) { 
+          console.log(data)
+          if(data.error1.text != 'none') {
+          document.getElementById('content1').innerText = data.error1.text;
+          document.getElementById('timestamp1').innerText = data.error1.timestamp;
+          }
+          if(data.error2.text != 'none') {
+          document.getElementById('content2').innerText = data.error2.text;
+          document.getElementById('timestamp2').innerText = data.error2.timestamp;
+          }
+            if(data.error3.text != 'none') {
+          document.getElementById('content3').innerText = data.error3.text;
+          document.getElementById('timestamp3').innerText = data.error3.timestamp;
+            }
+              if(data.error4.text != 'none') {
+          document.getElementById('content4').innerText = data.error4.text;
+          document.getElementById('timestamp4').innerText = data.error4.timestamp;
+              }
+                if(data.error5.text != 'none') {
+          document.getElementById('content5').innerText = data.error5.text;
+          document.getElementById('timestamp5').innerText = data.error5.timestamp;
+                }
+        })
+      }
+    </script>
+    <table class="center" id="quickTable">
+      <!--<caption>Reports in the last few days</caption>-->
+      <tbody>
+        <tr class="dataRow">
+          <td>
+            <p>Last Error Reports:</p>
+          </td>
+        </tr>
+        <tr class="dataRow">
+          <td>
+            <p class="left" id="content1">Yay! There hasn't been a recent error yet!</p>
+            <p class="left" id="timestamp1">No error logged</p>
+          </td>
+          </tr>
+        <tr class="dataRow">
+          <td>
+            <p class="left" id="content2">Yay! There hasn't been a recent error yet!</p>
+            <p class="left" id="timestamp2">No error logged</p>
+          </td>
+          </tr>
+        <tr class="dataRow">
+          <td>
+            <p class="left" id="content3">Yay! There hasn't been a recent error yet!</p>
+            <p class="left" id="timestamp3">No error logged</p>
+          </td>
+          </tr>
+        <tr class="dataRow">
+          <td>
+            <p class="left" id="content4">Yay! There hasn't been a recent error yet!</p>
+            <p class="left" id="timestamp4">No error logged</p>
+          </td>
+          </tr>
+        <tr class="dataRow">
+          <td>
+            <p class="left" id="content5">Yay! There hasn't been a recent error yet!</p>
+            <p class="left" id="timestamp5">No error logged</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <footer>
+    <br/>
+  <p style="font-size: 14px; text-align: center;">
+    This page refreshes every minute. <a href="http://llamabot.infinityfreeapp.com/">Visit main site</a><br>
+    (c) LarryTLlama
+    </p>
+    
+  </footer>
+  </body>
+</html>

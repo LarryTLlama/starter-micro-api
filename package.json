@@ -1,13 +1,48 @@
 {
-  "name": "starter-micro-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "node-statuspage",
+  "version": "0.0.1",
+  "description": "A NodeJs StatusPage powered by JSON Requests",
+  "main": "source/server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon source/server.js --config nodemon.json",
+    "starte": "node app.js",
+    "build": "rm -rf build/ && prettier --write source/ && tsc"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-  }
+    "axios": "^0.27.2",
+    "express": "^4.18.1",
+    "fastify": "^4.2.1",
+    "fastify-formbody": "^5.3.0",
+    "fastify-static": "^4.7.0",
+    "file-get-contents": "^1.0.0",
+    "handlebars": "^4.7.7",
+    "mkdirp": "^0.5.6",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.19",
+    "point-of-view": "^6.3.0",
+    "minecraft-server-util": "^5.3.0",
+    "minecraft-server-status-simple": "^1.1.2",
+    "@minescope/mineping": "^1.0.4",
+    "raknet-native": "^1.1.0",
+    "node-gyp": "^9.1.0",
+    "libxmljs": "^0.19.10",
+    "request": "^2.88.2",
+    "cloudscraper": "^4.6.0",
+    "request-cloudflare": "^2.0.0",
+    "express-http-proxy": "^1.6.3",
+    "mojang": "^2.2.2"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/glitch-hello-node"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "status",
+    "monitor",
+    "express"
+  ]
 }

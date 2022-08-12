@@ -1,0 +1,6 @@
+ERROR LOGS
+Heres where all the error logs go. To limit space usage, we reccomend that you delete them as you see them appear.
+
+Each error log should contain:
+- The error, plus all the related info
+- The timestamp that the error was sent at
