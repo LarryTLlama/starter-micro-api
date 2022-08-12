@@ -32,9 +32,6 @@
     "express-http-proxy": "^1.6.3",
     "mojang": "^2.2.2"
   },
-  "engines": {
-    "node": "12.x"
-  },
   "repository": {
     "url": "https://glitch.com/edit/#!/glitch-hello-node"
   },
