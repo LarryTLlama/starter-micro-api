@@ -46,17 +46,7 @@ app.get("/errors", function (req, res) {
   res.sendFile(path.join(__dirname + "/routes/site/errors.json"));
 })
 app.get('/pvc', function (req, res) {
-  axios.get('https://web.peacefulvanilla.club/maps/tiles/players.json')
-.then(function (response) {
-	 return res.status(200).json(response);
-  })
- .catch(function (error) {
-const json = `{
-	  "error": ` + error.message.toString() + `,
-	  }`
-	  console.error(error);
-     return res.status(200).json(json);
-  });
+  res.sendFile(path.join(__dirname + "/pvc.json"));
 });
 app.get("/pvc/bedrock", bedrockStat)
 app.get("/pvc/java", javaStat)
