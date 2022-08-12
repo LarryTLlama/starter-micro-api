@@ -96,7 +96,7 @@ const javaStat2 = async (req, res, next) => {
 };
 
 const bedrockStat = async (req, res, next) => {
-  
+/*  
 const { Client } = require('raknet-native')
 console.log('Beginning Try Catch')
 try {
@@ -131,6 +131,21 @@ return res.status(200).json({
       "online": false, message: e
     });
 }
+*/
+const options = {
+enableSRV: true // SRV record lookup
+};
+// The port and options arguments are optional, the
+// port will default to 19132.
+util.statusBedrock('bedrock.peacefulvanilla.club', 19132, options)
+    .then((result) => {
+return res.status(200).json(result);
+})
+    .catch((error) => {
+return res.status(200).json({
+      "online": false, message: error
+    });
+});
 };
 
 // updating a post
