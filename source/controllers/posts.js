@@ -191,7 +191,7 @@ axios.get('https://web.peacefulvanilla.club/maps/tiles/players.json')
 const json = `{
 	  "error": ` + error.message.toString() + `,
 	  }`
-	  
+	  console.error(error);
      return res.status(200).json(json);
   });
 };
