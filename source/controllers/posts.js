@@ -141,7 +141,7 @@ util.statusBedrock('bedrock.peacefulvanilla.club', 19132, options)
     .then((result) => {
 return res.status(200).json(
 	JSON.stringify(result, (_, v) => typeof v === 'bigint' ? v.toString() : v))
-)
+	})
     .catch((error) => {
 	console.log(error);
 return res.status(200).json({
