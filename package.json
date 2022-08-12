@@ -4,7 +4,7 @@
   "description": "A NodeJs StatusPage powered by JSON Requests",
   "main": "source/server.js",
   "scripts": {
-    "start": "nodemon source/server.js --config nodemon.json",
+    "build": "node source/server.js",
     "starte": "node app.js",
   },
   "dependencies": {
