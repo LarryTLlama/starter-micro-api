@@ -2,7 +2,7 @@
   "name": "node-statuspage",
   "version": "0.0.1",
   "description": "A NodeJs StatusPage powered by JSON Requests",
-  "main": "source/server.ts",
+  "main": "source/server.js",
   "scripts": {
     "start": "nodemon source/server.js --config nodemon.json",
     "starte": "node app.js",
