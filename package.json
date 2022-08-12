@@ -6,7 +6,6 @@
   "scripts": {
     "start": "nodemon source/server.js --config nodemon.json",
     "starte": "node app.js",
-    "build": "rm -rf build/ && prettier --write source/ && tsc"
   },
   "dependencies": {
     "axios": "^0.27.2",
