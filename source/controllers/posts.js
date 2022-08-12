@@ -142,6 +142,7 @@ util.statusBedrock('bedrock.peacefulvanilla.club', 19132, options)
 return res.status(200).json(result);
 })
     .catch((error) => {
+	console.log(error);
 return res.status(200).json({
       "online": false, message: error
     });
