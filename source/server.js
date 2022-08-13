@@ -71,6 +71,7 @@ fs.readFile('arraytester2.txt', 'utf8', async function(err, content) {
 	let fancy = eval(content);
 	var grid = new PF.Grid(fancy); 
 	var finder = new PF.AStarFinder();
+	console.log(p);
 	var path = finder.findPath(Number(p.startx), Number(p.starty), Number(p.endx), Number(p.endy), grid);
 	/*console.log('Compressed:')
 	console.log(PF.Util.compressPath(path))*/
