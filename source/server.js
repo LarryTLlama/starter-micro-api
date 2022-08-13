@@ -7,7 +7,7 @@ const util = require('minecraft-server-util');
 const path = require('path');
 const axios = require('axios');
 const fs = require('fs')
-const { updateStatus2, getMojangStat, getPosts, getPost, addError, updateStatus, deletePost, addPost, bedrockStat, javaStat } = require('./controllers/posts.js');
+const { getPlayers, updateStatus2, getMojangStat, getPosts, getPost, addError, updateStatus, deletePost, addPost, bedrockStat, javaStat } = require('./controllers/posts.js');
 
 const app = express();
 
