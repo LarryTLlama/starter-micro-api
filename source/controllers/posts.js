@@ -169,7 +169,7 @@ const updateStatus = async (req, res, next) => {
 };
 
 const updateStatus2 = async (req, res, next) => {
-    /*// get the post id from the req.params
+    // get the post id from the req.params
     var json = "source/pvc.json";
   
     // get the data from req.body
@@ -182,7 +182,7 @@ const updateStatus2 = async (req, res, next) => {
     // return response
     return res.status(200).json({
       message: "Updated successfully"
-    });*/
+    });
 };
 
 // updating a post
