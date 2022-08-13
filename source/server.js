@@ -48,6 +48,36 @@ app.get("/errors", function (req, res) {
 app.get('/pvc', function (req, res) {
   res.sendFile(path.join(__dirname + "/pvc.json"));
 });
+app.get('/ice/long/:startx/:starty/:endx/:endy', function (req, res) {
+var PF = require('pathfinding');
+const p = req.params;
+fs.readFile('arraytester2.txt', 'utf8', async function(err, content) {
+	if(err) throw err;
+	let fancy = eval(content);
+	var grid = new PF.Grid(fancy); 
+	var finder = new PF.AStarFinder();
+	var path = finder.findPath(p.startx, p.starty, p.endx, p.endy, grid);
+	/*console.log('Compressed:')
+	console.log(PF.Util.compressPath(path))*/
+	res.json({result: PF.Util.expandPath(path)})
+	/*res.json({result: PF.Util.expandPath(path)})*/
+})
+});
+app.get('/ice/short/:startx/:starty/:endx/:endy', function (req, res) {
+var PF = require('pathfinding');
+const p = req.params;
+fs.readFile('arraytester2.txt', 'utf8', async function(err, content) {
+	if(err) throw err;
+	let fancy = eval(content);
+	var grid = new PF.Grid(fancy); 
+	var finder = new PF.AStarFinder();
+	var path = finder.findPath(p.startx, p.starty, p.endx, p.endy, grid);
+	/*console.log('Compressed:')
+	console.log(PF.Util.compressPath(path))*/
+	res.json({result: PF.Util.compressPath(path)})
+	/*res.json({result: PF.Util.expandPath(path)})*/
+})
+});
 app.get("/pvc/bedrock", bedrockStat)
 app.get("/pvc/java", javaStat)
 app.get("/mojang", getMojangStat)
