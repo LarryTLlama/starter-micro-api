@@ -45,9 +45,7 @@ app.get("/info", function (req, res) {
 app.get("/errors", function (req, res) {
   res.sendFile(path.join(__dirname + "/routes/site/errors.json"));
 })
-app.get('/pvc', function (req, res) {
-  res.sendFile(path.join(__dirname + "/pvc.json"));
-});
+app.get('/pvc', getPlayers);
 app.get('/ice/long/:startx/:starty/:endx/:endy', function (req, res) {
 var PF = require('pathfinding');
 const p = req.params;

@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const fileGetContents = require('file-get-contents');
 const util = require('minecraft-server-util');
+let mostRecentUpdate = '{"error": "ENOTSTART - Player getter not completed first run yet since restart. Try again in a minute" }';
 //import { pingBedrock } from '@minescope/mineping';
 
 /*interface Post {
@@ -23,6 +24,10 @@ const getPosts = async (req, res, next) => {
     return res.status(200).json({
         message: posts
     });
+};
+
+const getPlayers = async (req, res, next) => {
+    return res.status(200).json(mostRecentUpdate);
 };
 
 /*//getting all posts
@@ -175,10 +180,7 @@ const updateStatus2 = async (req, res, next) => {
     // get the data from req.body
     let content = JSON.stringify(req.body) || null;
     //console.log(req.body)
-    fs.writeFile(json, content, (err) => {
-     if (err) throw err;
-     console.log('It\'s saved as:\n' + content);
-    });
+	mostRecentUpdate = content;
     // return response
     return res.status(200).json({
       message: "Updated successfully"
@@ -300,4 +302,4 @@ const addPost = async (req, res, next) => {
     });
 };
 
-module.exports = { updateStatus2, getPosts, getPost, addError, updateStatus, deletePost, addPost, bedrockStat, javaStat, getMojangStat };
+module.exports = { updateStatus2, getPosts, getPost, addError, updateStatus, deletePost, addPost, bedrockStat, javaStat, getMojangStat, getPlayers };
