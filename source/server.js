@@ -101,7 +101,7 @@ const editJsonFile = require("edit-json-file");
 // If the file doesn't exist, the content will be an empty object by default.
 
 
-app.post("/email/add/:email/:type", async function() {
+app.get("/email/add/:email/:type", async function() {
 	//Adding emails
 	//Getting email from url
 const p = req.params;
@@ -148,7 +148,7 @@ return res.status(200).json({
 }
 });
 
-app.post("/email/remove/:email/:type", async function() {
+app.get("/email/remove/:email/:type", async function() {
 	//Adding emails
 	//Getting email from url
 const p = req.params;
