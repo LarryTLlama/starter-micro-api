@@ -95,6 +95,104 @@ app.use((req, res, next) => {
     });
 });
 
+var nodemailer = require('nodemailer');
+const editJsonFile = require("edit-json-file");
+
+// If the file doesn't exist, the content will be an empty object by default.
+
+
+app.post("/email/add/:email/:type", async function() {
+	//Adding emails
+	//Getting email from url
+const p = req.params;
+if(p.type == "bedrock") {
+//Get the json file
+let file = editJsonFile(`${__dirname}/bedrock.json`);
+let content = await file.get().list;
+//If we dont already have the email address
+if(content.indexOf(p.email) == -1) {
+//Add the email to the content
+content.push(p.email)
+//And save it!
+file.set("list", content);
+//Everything is okay!
+return res.status(200).json({
+	message: "Email subscribed!"
+});
+} else {
+	//We've already got this email address, try again later!
+	return res.status(409).json({
+        message: "Email already subscribed!"
+    });
+}
+} else if(p.type == "java") {
+	//Get the json file
+let file = editJsonFile(`${__dirname}/java.json`);
+let content = await file.get().list;
+//If we dont already have the email address
+if(content.indexOf(p.email) == -1) {
+//Add the email to the content
+content.push(p.email)
+//And save it!
+file.set("list", content);
+//Everything is okay!
+return res.status(200).json({
+	message: "Email subscribed!"
+});
+} else {
+	//We've already got this email address, try again later!
+	return res.status(409).json({
+        message: "Email already subscribed!"
+    });
+}
+}
+});
+
+app.post("/email/remove/:email/:type", async function() {
+	//Adding emails
+	//Getting email from url
+const p = req.params;
+//Get the json file
+if(p.type == "bedrock") {
+let file = editJsonFile(`${__dirname}/bedrock.json`);
+let content = await file.get().list;
+//If we don't have the email address
+if(content.indexOf(p.email) == -1) {
+//Tell them to subscribe first!
+return res.status(409).json({
+	message: "Email not found. Maybe subscribe first?"
+});
+} else {
+	//We've already got this email address, try again later!
+	content.splice (content.indexOf(p.email), 1);
+	file.set("list", content);
+	return res.status(200).json({
+        message: "Email removed. Sad to see you go :')"
+    });
+}
+} else if(p.type == "java") {
+	let file = editJsonFile(`${__dirname}/java.json`);
+let content = await file.get().list;
+//If we don't have the email address
+if(content.indexOf(p.email) == -1) {
+//Tell them to subscribe first!
+return res.status(409).json({
+	message: "Email not found. Maybe subscribe first?"
+});
+} else {
+	//We've already got this email address, try again later!
+	content.splice (content.indexOf(p.email), 1);
+	file.set("list", content);
+	return res.status(200).json({
+        message: "Email removed. Sad to see you go :')"
+    });
+}
+}
+
+});
+
+
+
 /** Server */
 const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 6060;
