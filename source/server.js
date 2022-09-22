@@ -87,14 +87,7 @@ app.post("/error", addError); //Update Errors JSON with new data
 
 app.post("/pvc", updateStatus2); //Update Errors JSON with new data
 
-/** Error handling */
-app.use((req, res, next) => {
-    const error = new Error('not found');
-    return res.status(404).json({
-        message: error.message
-    });
-});
-
+//Email service
 var nodemailer = require('nodemailer');
 const editJsonFile = require("edit-json-file");
 
@@ -190,6 +183,16 @@ return res.status(409).json({
 }
 
 });
+
+/** Error handling */
+app.use((req, res, next) => {
+    const error = new Error('not found');
+    return res.status(404).json({
+        message: error.message
+    });
+});
+
+
 
 
 
