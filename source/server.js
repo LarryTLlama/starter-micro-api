@@ -270,6 +270,7 @@ util.status('bedrock.peacefulvanilla.clu', 19132, newoptions)
 		//Here we go!
 		newminutesdown++;
 		newe = error;
+		console.log(error)
 	});
 	if(newminutesdown == 5) {
 		//Wuh oh, we're seriously down!
