@@ -94,7 +94,7 @@ const editJsonFile = require("edit-json-file");
 // If the file doesn't exist, the content will be an empty object by default.
 
 
-app.get("/email/add/:email/:type", async function(req, res) {
+app.use("/email/add/:email/:type", async function(req, res) {
 	//Adding emails
 	//Getting email from url
 const p = req.params;
@@ -108,6 +108,7 @@ if(content.indexOf(p.email) == -1) {
 content.push(p.email)
 //And save it!
 file.set("list", content);
+file.save();
 //Everything is okay!
 return res.status(200).json({
 	message: "Email subscribed!"
@@ -128,6 +129,7 @@ if(content.indexOf(p.email) == -1) {
 content.push(p.email)
 //And save it!
 file.set("list", content);
+file.save();
 //Everything is okay!
 return res.status(200).json({
 	message: "Email subscribed!"
@@ -141,7 +143,7 @@ return res.status(200).json({
 }
 });
 
-app.get("/email/remove/:email/:type", async function(req, res) {
+app.use("/email/remove/:email/:type", async function(req, res) {
 	//Adding emails
 	//Getting email from url
 const p = req.params;
@@ -159,6 +161,7 @@ return res.status(409).json({
 	//We've already got this email address, try again later!
 	content.splice (content.indexOf(p.email), 1);
 	file.set("list", content);
+	file.save();
 	return res.status(200).json({
         message: "Email removed. Sad to see you go :')"
     });
@@ -176,6 +179,7 @@ return res.status(409).json({
 	//We've already got this email address, try again later!
 	content.splice (content.indexOf(p.email), 1);
 	file.set("list", content);
+	file.save();
 	return res.status(200).json({
         message: "Email removed. Sad to see you go :')"
     });
@@ -192,9 +196,105 @@ app.use((req, res, next) => {
     });
 });
 
+const EventEmitter = require('events');
+//Java events
+const java = new EventEmitter();
+//Bedrock events
+const bedrock = new EventEmitter();
+//Logging into emails
+var transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+	  user: 'pvclarrytllamanotifications@gmail.com',
+	  pass: process.env.emailPassword
+	}
+  });
 
+//Alright, time for java
+const options = {
+    timeout: 1000 * 5, 
+    enableSRV: true
+};
 
+let minutesdown = 0;
+let e;
+setInterval(async function() {
+util.status('mc.peacefulvanilla.club', 25565, options)
+    .then((result) => {
+		//Do nothing :DDD
+		minutesdown = 0;
+	})
+    .catch(async (error) => {
+		//Here we go!
+		minutesdown++;
+		e = error;
+	});
+	if(minutesdown == 5) {
+		//Wuh oh, we're seriously down!
+		let file = editJsonFile(`${__dirname}/java.json`);
+		let content = await file.get().list;
+		let d = new Date().toString()
+		content.forEach(function(item, index) {
+		var mailOptions = {
+			from: 'pvclarrytllamanotifications@gmail.com',
+			to: item,
+			subject: 'Peaceful Vanilla Club is Offline!',
+			text: `This is a notification to let you know that we failed to connect to Peaceful Vanilla Club (java).\nCheck status now: https://larrytllama.github.io/pvc-status \nConnection error: ${e} \nTime: ${d}.\nUnsubcribe: https://larrytllama.cyclic.app/email/remove/${item}/java `
+		  };
+		  transporter.sendMail(mailOptions, function(error, info){
+			if (error) {
+			  console.log(error);
+			} else {
+			  console.log(`Email sent to ${item}: ` + info.response);
+			}
+		  });
+	})
+	}
 
+}, 60000)
+
+//And now, bedrock
+const newoptions = {
+    enableSRV: true
+};
+
+let newminutesdown = 0;
+let newe;
+setInterval(async function() {
+util.status('bedrock.peacefulvanilla.clu', 19132, newoptions)
+    .then((result) => {
+		//Do nothing :DDD
+		newminutesdown = 0;
+	})
+    .catch(async (error) => {
+		//Here we go!
+		newminutesdown++;
+		newe = error;
+	});
+	if(newminutesdown == 5) {
+		//Wuh oh, we're seriously down!
+		let file = editJsonFile(`${__dirname}/bedrock.json`);
+		let content = await file.get().list;
+		let d = new Date().toString()
+		content.forEach(function(item, index) {
+		var mailOptions = {
+			from: 'pvclarrytllamanotifications@gmail.com',
+			to: item,
+			subject: 'Peaceful Vanilla Club is Offline!',
+			text: `This is a notification to let you know that we failed to connect to Peaceful Vanilla Club (bedrock).\nCheck status now: https://larrytllama.github.io/pvc-status \nConnection error: ${newe} \nTime: ${d}.\nUnsubcribe: https://larrytllama.cyclic.app/email/remove/${item}/bedrock`		  };
+		  transporter.sendMail(mailOptions, function(error, info){
+			if (error) {
+			  console.log(error);
+			} else {
+			  console.log(`Email sent to ${item}: ` + info.response);
+			}
+		  });
+	})
+	}
+
+}, 10000)
+
+setTimeout(function() {console.log("1 minute!")}, 60000)
 
 /** Server */
 const httpServer = http.createServer(app);
