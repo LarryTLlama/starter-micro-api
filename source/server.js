@@ -246,6 +246,7 @@ util.status('mc.peacefulvanilla.club', 25565, options)
 		//Here we go!
 		minutesdown++;
 		e = error;
+		console.log("JAVA Error " + minutesdown + ": " + error)
 	});
 	if(minutesdown == 5) {
 		//Wuh oh, we're seriously down!
@@ -263,7 +264,7 @@ util.status('mc.peacefulvanilla.club', 25565, options)
 			if (error) {
 			  console.log(error);
 			} else {
-			  console.log(`Email sent to ${item}: ` + info.response);
+			  console.log(`Java error Email sent to ${item}: ` + info.response);
 			}
 		  });
 	})
