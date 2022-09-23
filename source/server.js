@@ -265,18 +265,21 @@ const newoptions = {
 let newminutesdown = 0;
 let newe;
 setInterval(async function() {
-util.status('bedrock.peacefulvanilla.club', 19132, newoptions)
-    .then((result) => {
-		//Do nothing :DDD
+axios.get('https://api.mcstatus.io/v1/status/bedrock/bedrock.peacefulvanilla.club')
+.then((response) => {
+	//We got it! Yay!
+	if(response.data.online) {
 		newminutesdown = 0;
-		console.log(result)
-	})
-    .catch(async (error) => {
-		//Here we go!
+	} else if(response.data.online == false) {
 		newminutesdown++;
-		newe = error;
-		console.log('Issue on bedrock: ', error)
-	});
+		console.log('Bedrock down!')
+	} else {
+		console.log('Wuh oh, something went wrong')
+	}
+})
+.catch((error) => {
+	console.log(error)
+})
 	if(newminutesdown == 5) {
 		//Wuh oh, we're seriously down!
 		let file = editJsonFile(`${__dirname}/bedrock.json`);
@@ -298,7 +301,7 @@ util.status('bedrock.peacefulvanilla.club', 19132, newoptions)
 	})
 	}
 
-}, 10000)
+}, 60000)
 
 setTimeout(function() {console.log("1 minute!")}, 60000)
 
