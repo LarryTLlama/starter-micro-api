@@ -275,7 +275,7 @@ util.status('bedrock.peacefulvanilla.club', 19132, newoptions)
 		//Here we go!
 		newminutesdown++;
 		newe = error;
-		console.log(newminutesdown, ": ", error)
+		console.log('Issue on bedrock: ', error)
 	});
 	if(newminutesdown == 5) {
 		//Wuh oh, we're seriously down!
@@ -288,13 +288,13 @@ util.status('bedrock.peacefulvanilla.club', 19132, newoptions)
 			to: item,
 			subject: 'Peaceful Vanilla Club is Offline!',
 			text: `This is a notification to let you know that we failed to connect to Peaceful Vanilla Club (bedrock).\nCheck status now: https://larrytllama.github.io/pvc-status \nConnection error: ${newe} \nTime: ${d}.\nUnsubcribe: https://larrytllama.cyclic.app/email/remove/${item}/bedrock`		  };
-		  transporter.sendMail(mailOptions, function(error, info){
+		  /*transporter.sendMail(mailOptions, function(error, info){
 			if (error) {
 			  console.log(error);
 			} else {
 			  console.log(`Email sent to ${item}: ` + info.response);
 			}
-		  });
+		  });*/
 	})
 	}
 
