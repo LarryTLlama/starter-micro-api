@@ -298,6 +298,11 @@ util.status('bedrock.peacefulvanilla.clu', 19132, newoptions)
 
 setTimeout(function() {console.log("1 minute!")}, 60000)
 
+process.on('uncaughtException', err => {
+	console.log('There was an uncaught error', err);
+	process.exit(1); // mandatory (as per the Node.js docs)
+  });
+
 /** Server */
 const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 6060;
