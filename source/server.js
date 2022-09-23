@@ -8,7 +8,7 @@ const path = require('path');
 const axios = require('axios');
 const fs = require('fs')
 const { getPlayers, updateStatus2, getMojangStat, getPosts, getPost, addError, updateStatus, deletePost, addPost, bedrockStat, javaStat } = require('./controllers/posts.js');
-
+console.log(`We're running on ${process.platform}`)
 const app = express();
 
 /** Logging */

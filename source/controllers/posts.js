@@ -6,6 +6,7 @@ const path = require('path');
 const fileGetContents = require('file-get-contents');
 const util = require('minecraft-server-util');
 let mostRecentUpdate = '{"error": "ENOTSTART - Player getter not completed first run yet since restart. Try again in a minute" }';
+
 //import { pingBedrock } from '@minescope/mineping';
 
 /*interface Post {
