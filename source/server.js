@@ -89,6 +89,19 @@ app.post("/pvc", updateStatus2); //Update Errors JSON with new data
 
 //Email service
 var nodemailer = require('nodemailer');
+//Logging into emails
+var transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+	  type: 'OAuth2',
+	  user: 'pvclarrytllamanotifications@gmail.com',
+	  pass: process.env.PASSWORD,
+	  clientId: process.env.CLIENTID,
+	  clientSecret: process.env.SECRET,
+	  refreshToken: process.env.TOKEN
+	}
+  });
+
 const editJsonFile = require("edit-json-file");
 
 // If the file doesn't exist, the content will be an empty object by default.
@@ -110,14 +123,25 @@ content.push(p.email)
 file.set("list", content);
 file.save();
 //Everything is okay!
-return res.status(200).json({
-	message: "Email subscribed!"
-});
+
+	var mailOptions = {
+		from: 'pvclarrytllamanotifications@gmail.com',
+		to: p.email,
+		subject: 'PVC Notification Service - Added!',
+		text: `Yo, thanks for joining our mailing list! You'll get an email when the Bedrock server goes offline. \nCheck status now: https://larrytllama.github.io/pvc-status \nUnsubcribe: https://larrytllama.cyclic.app/email/remove/${p.email}/bedrock`		  
+	};
+	  transporter.sendMail(mailOptions, function(error, info){
+		if (error) {
+		  console.log(error);
+		} else {
+		  console.log(`Sign-up email sent to ${item}: ` + info.response);
+		}
+	  });
+
+return res.status(200).send(`Email address added to mailing list!\n Check your inbox for a confirmation!\n\n Subscribed by mistake? Unsubscribe here: https://larrytllama.cyclic.app/email/remove/${p.email}/${p.type}`)
 } else {
 	//We've already got this email address, try again later!
-	return res.status(409).json({
-        message: "Email already subscribed!"
-    });
+	return res.status(409).send(`Whoops, you're already added!\n Did you mean to unsubscribe? https://larrytllama.cyclic.app/email/remove/${p.email}/${p.type}`)
 }
 } else if(p.type == "java") {
 	//Get the json file
@@ -131,14 +155,24 @@ content.push(p.email)
 file.set("list", content);
 file.save();
 //Everything is okay!
-return res.status(200).json({
-	message: "Email subscribed!"
-});
+var mailOptions = {
+	from: 'pvclarrytllamanotifications@gmail.com',
+	to: p.email,
+	subject: 'PVC Notification Service - Added!',
+	text: `Yo, thanks for joining our mailing list! You'll get an email when the Java server goes offline. \nCheck status now: https://larrytllama.github.io/pvc-status \nUnsubcribe: https://larrytllama.cyclic.app/email/remove/${p.email}/bedrock`		  
+};
+  transporter.sendMail(mailOptions, function(error, info){
+	if (error) {
+	  console.log(error);
+	} else {
+	  console.log(`Sign-up email sent to ${item}: ` + info.response);
+	}
+  });
+return res.status(200).send(`Email address added to mailing list!\n Check your inbox for a confirmation!\n\n Subscribed by mistake? Unsubscribe here: https://larrytllama.cyclic.app/email/remove/${p.email}/${p.type}`)
 } else {
 	//We've already got this email address, try again later!
-	return res.status(409).json({
-        message: "Email already subscribed!"
-    });
+	return res.status(409).send(`Whoops, you're already added!\n Did you mean to unsubscribe? https://larrytllama.cyclic.app/email/remove/${p.email}/${p.type}`)
+
 }
 }
 });
@@ -154,17 +188,13 @@ let content = await file.get().list;
 //If we don't have the email address
 if(content.indexOf(p.email) == -1) {
 //Tell them to subscribe first!
-return res.status(409).json({
-	message: "Email not found. Maybe subscribe first?"
-});
+return res.status(409).send('Your email isn\'t on our list yet!')
 } else {
 	//We've already got this email address, try again later!
 	content.splice (content.indexOf(p.email), 1);
 	file.set("list", content);
 	file.save();
-	return res.status(200).json({
-        message: "Email removed. Sad to see you go :')"
-    });
+	return res.status(200).send('We have removed your email from our list. Sad to see you go!')
 }
 } else if(p.type == "java") {
 	let file = editJsonFile(`${__dirname}/java.json`);
@@ -172,17 +202,13 @@ let content = await file.get().list;
 //If we don't have the email address
 if(content.indexOf(p.email) == -1) {
 //Tell them to subscribe first!
-return res.status(409).json({
-	message: "Email not found. Maybe subscribe first?"
-});
+return res.status(409).send('We couldn\'t find your email on our list. Maybe you meant to add it first?')
 } else {
 	//We've already got this email address, try again later!
 	content.splice (content.indexOf(p.email), 1);
 	file.set("list", content);
 	file.save();
-	return res.status(200).json({
-        message: "Email removed. Sad to see you go :')"
-    });
+	return res.status(200).send("We have removed your email. Sad to see you go!")
 }
 }
 
@@ -201,18 +227,6 @@ const EventEmitter = require('events');
 const java = new EventEmitter();
 //Bedrock events
 const bedrock = new EventEmitter();
-//Logging into emails
-var transporter = nodemailer.createTransport({
-	service: 'gmail',
-	auth: {
-	  type: 'OAuth2',
-	  user: 'pvclarrytllamanotifications@gmail.com',
-	  pass: process.env.PASSWORD,
-	  clientId: process.env.CLIENTID,
-	  clientSecret: process.env.SECRET,
-	  refreshToken: process.env.TOKEN
-	}
-  });
 
 //Alright, time for java
 const options = {
@@ -290,14 +304,15 @@ axios.get('https://api.mcstatus.io/v1/status/bedrock/bedrock.peacefulvanilla.clu
 			from: 'pvclarrytllamanotifications@gmail.com',
 			to: item,
 			subject: 'Peaceful Vanilla Club is Offline!',
-			text: `This is a notification to let you know that we failed to connect to Peaceful Vanilla Club (bedrock).\nCheck status now: https://larrytllama.github.io/pvc-status \nConnection error: ${newe} \nTime: ${d}.\nUnsubcribe: https://larrytllama.cyclic.app/email/remove/${item}/bedrock`		  };
-		  /*transporter.sendMail(mailOptions, function(error, info){
+			text: `This is a notification to let you know that we failed to connect to Peaceful Vanilla Club (bedrock).\nCheck status now: https://larrytllama.github.io/pvc-status \nConnection error: ${newe} \nTime: ${d}.\nUnsubcribe: https://larrytllama.cyclic.app/email/remove/${item}/bedrock`		  
+		};
+		  transporter.sendMail(mailOptions, function(error, info){
 			if (error) {
 			  console.log(error);
 			} else {
 			  console.log(`Email sent to ${item}: ` + info.response);
 			}
-		  });*/
+		  });
 	})
 	}
 
