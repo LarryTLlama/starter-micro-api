@@ -205,8 +205,12 @@ const bedrock = new EventEmitter();
 var transporter = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
+	  type: 'OAuth2',
 	  user: 'pvclarrytllamanotifications@gmail.com',
-	  pass: process.env.emailPassword
+	  pass: process.env.PASSWORD,
+	  clientId: process.env.CLIENTID,
+	  clientSecret: process.env.SECRET,
+	  refreshToken: process.env.TOKEN
 	}
   });
 
