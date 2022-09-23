@@ -331,19 +331,6 @@ const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 6060;
 httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
 
-const { exec } = require("child_process");
-
-exec("npm i raknet-native@1.2.0", (error, stdout, stderr) => {
-    if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-    }
-    if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-    }
-    console.log(`stdout: ${stdout}`);
-});
 
 /*const { Client } = require('raknet-native')
 const client = new Client('bedrock.peacefulvanilla.club', 19132, 'minecraft')
