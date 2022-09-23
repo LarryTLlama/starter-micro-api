@@ -265,7 +265,7 @@ const newoptions = {
 let newminutesdown = 0;
 let newe;
 setInterval(async function() {
-util.status('bedrock.peacefulvanilla.clu', 19132, newoptions)
+util.status('bedrock.peacefulvanilla.club', 19132, newoptions)
     .then((result) => {
 		//Do nothing :DDD
 		newminutesdown = 0;
