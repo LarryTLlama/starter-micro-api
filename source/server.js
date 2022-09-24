@@ -105,7 +105,7 @@ var transporter = nodemailer.createTransport({
 const editJsonFile = require("edit-json-file");
 
 // If the file doesn't exist, the content will be an empty object by default.
-
+/*
 
 app.use("/email/add/:email/:type", async function(req, res) {
 	//Adding emails
@@ -214,7 +214,7 @@ return res.status(409).send('We couldn\'t find your email on our list. Maybe you
 
 });
 
-/** Error handling */
+Error handling
 app.use((req, res, next) => {
     const error = new Error('not found');
     return res.status(404).json({
@@ -320,7 +320,7 @@ axios.get('https://api.mcstatus.io/v1/status/bedrock/bedrock.peacefulvanilla.clu
 }, 60000)
 
 setTimeout(function() {console.log("1 minute!")}, 60000)
-
+*/
 process.on('uncaughtException', err => {
 	console.log('There was an uncaught error', err);
 	process.exit(1); // mandatory (as per the Node.js docs)
@@ -353,4 +353,3 @@ client.on('pong', (data) => {
     client.ping();
 	}, 10000)
 */
-
