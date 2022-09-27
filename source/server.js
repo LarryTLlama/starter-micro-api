@@ -331,7 +331,7 @@ const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 6060;
 httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
 
-const nodemailer = require('nodemailer');
+
 
 var transporter = nodemailer.createTransport({
 	service: 'gmail',
