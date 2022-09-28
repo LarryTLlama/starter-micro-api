@@ -353,11 +353,9 @@ console.log('Alright, lets go!')
 setInterval(function() {
 axios.get('https://web.peacefulvanilla.club/status.html')
   .then(function (response) {
-    console.log(response.data);
 	if(response.data.includes('online')) {
 		counter = 0;
 	} else if(response.data.includes('offline')) {
-		fs.appendFile('logs.txt', 'OFFLINE!\n', function() {})
 		counter++;
 		console.log('[OrwellBeta] The server is offline! I have said this', counter, 'time(s) in a row!')
 	} else {
@@ -376,7 +374,6 @@ axios.get('https://web.peacefulvanilla.club/status.html')
   .then(function (response) {
     console.log(response.data);
 	if(response.data.includes('pizza')) {
-		fs.appendFile('logs.txt', new Date().toString + ' Server off 10 times, sending emails', function() { console.log('Saved to console')})
 		var mailOptions = {
 			from: 'pvclarrytllamanotifications@gmail.com',
 			to: "larrytllama5@gmail.com",
@@ -387,7 +384,6 @@ axios.get('https://web.peacefulvanilla.club/status.html')
 			if (error) {
 			  console.log('OH NO! We failed at the last hurdle! Error with the email sending!')
 			  console.log(error);
-			  fs.appendFile('logs.txt', 'Error sending email: '+ error, function() {console.log('Added error log')});
 			} else {
 			  console.log(`Email sent to ${item}: ` + info.response);
 			}
