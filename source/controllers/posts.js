@@ -179,7 +179,7 @@ const updateStatus2 = async (req, res, next) => {
     var json = "source/pvc.json";
   
     // get the data from req.body
-    let content = JSON.stringify(req.body) || null;
+    let content = req.body || null;
     //console.log(req.body)
 	mostRecentUpdate = content;
     // return response

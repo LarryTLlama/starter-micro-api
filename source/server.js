@@ -21,7 +21,7 @@ app.use(express.json());
 /** RULES OF OUR API */
 app.use((req, res, next) => {
     // set the CORS policy
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', 'local');
     // set the CORS headers
     res.header('Access-Control-Allow-Headers', 'origin, X-Requested-With,Content-Type,Accept, Authorization');
     // set the CORS method headers
@@ -81,6 +81,45 @@ fs.readFile('arraytester2.txt', 'utf8', async function(err, content) {
 app.get("/pvc/bedrock", bedrockStat)
 app.get("/pvc/java", javaStat)
 app.get("/mojang", getMojangStat)
+app.get("/pvc/main", function(req, res) {
+	axios.get('https://web.peacefulvanilla.club/status.html')
+	.then((response) => {
+		res.status(200).json({
+			"status": response.data,
+			"error": null
+		})
+	})
+	.catch((error) => {
+		res.status(500).json({
+			"status": "unknown",
+			"error": error
+		})
+	})
+})
+
+app.get("/pvc/maintenance", function(req, res) {
+	axios.get('https://web.peacefulvanilla.club/maintenance.html')
+	.then((response) => {
+		if(response.data == "pizza") {
+		res.status(200).json({
+			"status": false,
+			"error": null
+		})
+	} else {
+		res.status(200).json({
+			"status": true,
+			"error": null
+		})
+	}
+	})
+	.catch((error) => {
+		res.status(500).json({
+			"status": "unknown",
+			"error": error
+		})
+	});
+})
+
 
 app.post("/log", updateStatus); //Update JSON with new data
 
@@ -334,95 +373,8 @@ httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}
 
 
 
-var transporter = nodemailer.createTransport({
-	service: 'gmail',
-	auth: {
-	  type: 'OAuth2',
-	  user: 'pvclarrytllamanotifications@gmail.com',
-	  pass: 'f5sQn5#9S74M$ib9',
-	  clientId: '768508631766-j265knan315khl75ua0aggetalq0vjhi.apps.googleusercontent.com',
-	  clientSecret: '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',
-	  refreshToken: '1//04caSTplnplGICgYIARAAGAQSNwF-L9IrwHD7gAzqD9ZG_0JAL1tpAJ-7VxRXchxvU6K26FECm7QXkExKxTKjkBB2etHgxa04YIE'
-	}
-  });
+
   //Logging in...
-let counter = 0;
-
-console.log('Alright, lets go!')
-
-setInterval(function() {
-axios.get('https://web.peacefulvanilla.club/status.html')
-  .then(function (response) {
-	if(response.data.includes('online')) {
-		counter = 0;
-	} else if(response.data.includes('offline')) {
-		counter++;
-		console.log('[OrwellBeta] The server is offline! I have said this', counter, 'time(s) in a row!')
-	} else {
-		console.error("The server isn't online nor offline *confused screaming*")
-	}
-  })
-  .catch(function (error) {
-    console.log(error);
-	console.log('There was an error! Panik! No changes have been made, no emails have been sent. Kalm :)')
-  })
-  //Does it after 10 fails. No, not *on* 10, after 10.
-  if(counter === 10) {
-	  console.log('Wuh oh, its properly offline! Loading up email systems...')
-	  //peacefulvanillaclub@gmail.com
-	  axios.get('https://web.peacefulvanilla.club/maintenance.html')
-  .then(function (response) {
-    console.log(response.data);
-	if(response.data.includes('pizza')) {
-		var mailOptions = {
-			from: 'pvclarrytllamanotifications@gmail.com',
-			to: "larrytllama5@gmail.com",
-			subject: 'Peaceful Vanilla Club is Offline!',
-			text: `This is a notification to let you know that we failed to connect to Peaceful Vanilla Club (java).\nCheck status now: https://larrytllama.github.io/pvc-status \nTime: ${new Date().toString()}.`		  
-		};
-		  transporter.sendMail(mailOptions, function(error, info){
-			if (error) {
-			  console.log('OH NO! We failed at the last hurdle! Error with the email sending!')
-			  console.log(error);
-			} else {
-			  console.log(`Email sent to ${item}: ` + info.response);
-			}
-		  });
-
-		  var mailOptions = {
-			from: 'pvclarrytllamanotifications@gmail.com',
-			to: "peacefulvanillaclub@gmail.com",
-			subject: 'Peaceful Vanilla Club is Offline!',
-			text: `This is a notification to let you know that we failed to connect to Peaceful Vanilla Club (java).\nCheck status now: https://larrytllama.github.io/pvc-status \nTime: ${new Date().toString()}.`		  
-		};
-		  transporter.sendMail(mailOptions, function(error, info){
-			if (error) {
-			  console.log('OH NO! We failed at the last hurdle! Error with the email sending!')
-			  console.log(error);
-			} else {
-			  console.log(`Email sent to ${item}: ` + info.response);
-			}
-		  });
-	} else if(response.data.includes('maintenance')) {
-		console.log('False alarm! All is fine! Its just a bit of maintenance!')
-	} else {
-		console.error("The server isn't in pizza mode. Its not in maintenance mode either. ¯\_(ツ)_/¯")
-		console.error("To be quite honest, idk what to do here. I'll leave this message and *hopefully* it gets sorted.")
-	}
-  })
-  .catch(function (error) {
-    console.log(error);
-	console.log('There was an error! Panik! No changes have been made, no emails have been sent. Kalm :)')
-  })
-	  
-  }
-}, 30000)
-//FS.APPENDFILE( FILE< DATA< CALLBACK)
-process.on('uncaughtException', err => {
-	console.log('There was an uncaught error', err);
-	//process.exit(1); // mandatory (as per the Node.js docs) // You what? Mandatory? Nahhh
-	console.log('Apologies for the technical difficulties. Back to regular showings of *more server checks*. Yaaaaaaaay')
-});
 
 
 /*const { Client } = require('raknet-native')
