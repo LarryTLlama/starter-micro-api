@@ -145,8 +145,7 @@ enableSRV: true // SRV record lookup
 // port will default to 19132.
 util.statusBedrock('bedrock.peacefulvanilla.club', 19132, options)
     .then((result) => {
-return res.status(200).json(
-	JSON.stringify(result, (_, v) => typeof v === 'bigint' ? v.toString() : v))
+return res.status(200).json(result)
 	})
     .catch((error) => {
 	console.log(error);
