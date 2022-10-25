@@ -49,19 +49,19 @@ app.get("/errors", function (req, res) {
 
 // Llama Iceways Stuff
 app.get('/llama-iceways', (req, res) => {
-	res.sendFile(path.join(__dirname, 'llama-iceways/index.html'))
+	res.sendFile(path.join(__dirname, '../llama-iceways/index.html'))
 })
 
 app.get('/llama-iceways/map', (req, res) => {
-	res.sendFile(path.join(__dirname, "llama-iceways/map.html"))
+	res.sendFile(path.join(__dirname, "../llama-iceways/map.html"))
 })
 
 app.get('/llama-iceways/directions', (req, res) => {
-	res.sendFile(path.join(__dirname, "llama-iceways/directions.html"))
+	res.sendFile(path.join(__dirname, "../llama-iceways/directions.html"))
 })
 
 app.get('/llama-iceways/:file', (req, res) => {
-	res.sendFile(path.join(__dirname, '/llama-iceways/' + req.params.file));
+	res.sendFile(path.join(__dirname, '../llama-iceways/' + req.params.file));
 })
 
 app.get('/pvc', getPlayers);
