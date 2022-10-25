@@ -64,6 +64,46 @@ app.get('/llama-iceways/:file', (req, res) => {
 	res.sendFile(path.join(__dirname, '../llama-iceways/' + req.params.file));
 })
 
+// Images
+
+app.get('/llama-iceways/images/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../llama-iceways/' + req.params.file));
+})
+
+// All the stuff in the assets folder
+
+// js
+
+app.get('/llama-iceways/assets/js/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../llama-iceways/assets/js/' + req.params.file));
+})
+
+// css
+
+app.get('/llama-iceways/css/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../llama-iceways/assets/css/' + req.params.file));
+})
+
+app.get('/llama-iceways/css/images/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../llama-iceways/assets/css/images/' + req.params.file));
+})
+
+// sass
+
+app.get('/llama-iceways/sass/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../llama-iceways/assets/sass/' + req.params.file));
+})
+
+app.get('/llama-iceways/sass/libs/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../llama-iceways/assets/sass/libs/' + req.params.file));
+})
+
+// webfonts
+
+app.get('/llama-iceways/webfonts/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../llama-iceways/assets/webfonts/' + req.params.file));
+})
+
 app.get('/pvc', getPlayers);
 app.get('/ice/long/:startx/:starty/:endx/:endy', function (req, res) {
 var PF = require('pathfinding');
