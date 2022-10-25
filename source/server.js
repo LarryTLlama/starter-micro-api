@@ -67,7 +67,7 @@ app.get('/llama-iceways/:file', (req, res) => {
 // Images
 
 app.get('/llama-iceways/images/:file', (req, res) => {
-	res.sendFile(path.join(__dirname, '../llama-iceways/' + req.params.file));
+	res.sendFile(path.join(__dirname, '../llama-iceways/images/' + req.params.file));
 })
 
 // All the stuff in the assets folder
