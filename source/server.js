@@ -80,27 +80,27 @@ app.get('/llama-iceways/assets/js/:file', (req, res) => {
 
 // css
 
-app.get('/llama-iceways/css/:file', (req, res) => {
+app.get('/llama-iceways/assets/css/:file', (req, res) => {
 	res.sendFile(path.join(__dirname, '../llama-iceways/assets/css/' + req.params.file));
 })
 
-app.get('/llama-iceways/css/images/:file', (req, res) => {
+app.get('/llama-iceways/assets/css/images/:file', (req, res) => {
 	res.sendFile(path.join(__dirname, '../llama-iceways/assets/css/images/' + req.params.file));
 })
 
 // sass
 
-app.get('/llama-iceways/sass/:file', (req, res) => {
+app.get('/llama-iceways/assets/sass/:file', (req, res) => {
 	res.sendFile(path.join(__dirname, '../llama-iceways/assets/sass/' + req.params.file));
 })
 
-app.get('/llama-iceways/sass/libs/:file', (req, res) => {
+app.get('/llama-iceways/assets/sass/libs/:file', (req, res) => {
 	res.sendFile(path.join(__dirname, '../llama-iceways/assets/sass/libs/' + req.params.file));
 })
 
 // webfonts
 
-app.get('/llama-iceways/webfonts/:file', (req, res) => {
+app.get('/llama-iceways/assets/webfonts/:file', (req, res) => {
 	res.sendFile(path.join(__dirname, '../llama-iceways/assets/webfonts/' + req.params.file));
 })
 
