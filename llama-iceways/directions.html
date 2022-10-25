@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Directions - The Llama Iceways Project</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<style>
+		option {
+		padding: 5px;
+		margin: 5px;
+		}
+		
+		.card {
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		background-color: #fffff;
+		padding: 16px;
+		padding-bottom: 5px;
+		height:inherit;
+		margin-top: 16px;
+		}
+		
+		</style>
+		<script>
+		window.onload = function() {
+var c = document.getElementById("canvas");
+var ctx = c.getContext("2d");
+var img = document.getElementById("orig");
+ctx.drawImage(img, 0, 0);
+
+//Lets create a dot at 0, 0
+function convertToImg(no) {
+let firststepx = no[0] * 0.23526044647967945048654836863194;
+let secondstepx = firststepx + 240.5;
+let firststepy = no[1] * 0.23439211391018619934282584884995;
+let secondstepy = firststepy + 246;
+return [Math.round(secondstepx), Math.round(secondstepy)];
+}
+
+function convertToCoords(no) {
+let onex = no[0] - 240.5;
+let twox = onex / 0.23526044647967945048654836863194;
+let oney = no[1] - 246;
+let twoy = oney / 0.23439211391018619934282584884995;
+return [Math.round(twox), Math.round(twoy)];
+}
+
+/*res.forEach(function(item, index) {
+ctx.fillStyle = "#00ff00";
+ctx.fillRect(item[0], item[1], 1, 1);
+})*/
+
+document.getElementById('getDir').addEventListener("click", async function(){
+  var x = document.getElementById("start").value;
+  var x1 = x.split(' ')
+  var y = document.getElementById("end").value;
+  var y1 = y.split(' ')
+  
+  if(x == y) {
+  document.getElementById('error').innerText = 'Start and end can\'t be the same, silly!'
+  }
+  
+  if(x == 'starter') {
+  document.getElementById('error').innerText = 'Choose a proper starting location!'
+  } else if(y == 'ender') {
+  document.getElementById('error').innerText = 'Choose a proper ending location!'
+  }
+  $.getJSON( "https://larrytllama.cyclic.app/ice/long/" + x1[0] + '/' + x1[1] + '/' + y1[0] + '/' + y1[1], function( data ) {
+  let res = data.result;
+  var c = document.getElementById("canvas");
+  var ctx = c.getContext("2d");
+  var img = document.getElementById("orig");
+  ctx.drawImage(img, 0, 0);
+  res.forEach(function(item, index) {
+  ctx.fillStyle = "#00ff00";
+  ctx.fillRect(item[0], item[1], 1, 1);
+  })
+  })
+  
+  let short = '';
+  $.getJSON( "https://larrytllama.cyclic.app/ice/short/" + x1[0] + '/' + x1[1] + '/' + y1[0] + '/' + y1[1], function( data ) {
+  let res = data.result;
+  //+y = South (Down)
+  //-y = North (Up)
+  //+x = East (Right)
+  //-x = West (Left)
+  document.getElementById('steps').innerHTML = "<header><h3>Steps to destination</h3></header>"
+  res.forEach(function(item, index) {
+  //Get Direction:
+  let dir;
+  let s = document.getElementById('steps');
+  if(!res[index+1]) {
+  s.innerHTML += `<div class="card">
+					<h3 style="width: 80%;">You have arrived! <i class="fa-solid fa-location-dot"></i></h3>
+					<p style="width: 80%;"></p>
+					</div>`
+  } else if(item[1] < res[index+1][1]) {
+  s.innerHTML += `<div class="card">
+					<h3 style="width: 80%;">Go South <i class="fa-solid fa-circle-arrow-down"></i></h3>
+					<p style="width: 80%;">Until the junction, near <strong>${convertToCoords(res[index+1])}</strong></p>
+					</div>`
+  } else if(item[1] > res[index+1][1]) {
+  s.innerHTML += `<div class="card">
+					<h3 style="width: 80%;">Head North <i class="fa-solid fa-circle-arrow-up"></i></h3>
+					<p style="width: 80%;">Stop near <strong>${convertToCoords(res[index+1])}</strong></p>
+					</div>`
+  } else if(item[0] < res[index+1][0]) {
+  s.innerHTML += `<div class="card">
+					<h3 style="width: 80%;">Keep East <i class="fa-solid fa-circle-arrow-right"></i></h3>
+					<p style="width: 80%;">Up until around <strong>${convertToCoords(res[index+1])}</strong></p>
+					</div>`
+  } else if(item[0] > res[index+1][0]) {
+  s.innerHTML += `<div class="card">
+					<h3 style="width: 80%;">Travel West <i class="fa-solid fa-circle-arrow-left"></i></h3>
+					<p style="width: 80%;">Continue to the junction around <strong>${convertToCoords(res[index+1])}</strong></p>
+					</div>`
+  } 
+  
+  
+  })
+  })
+  
+  document.getElementById('canvas')
+  
+});
+
+document.getElementById('getDir').addEventListener("touchend", async function(){
+  var x = document.getElementById("start").value;
+  var x1 = x.split(' ')
+  var y = document.getElementById("end").value;
+  var y1 = y.split(' ')
+  
+  if(x == y) {
+  document.getElementById('error').innerText = 'Start and end can\'t be the same, silly!'
+  }
+  if(x == 'starter') {
+  document.getElementById('error').innerText = 'Choose a proper starting location!'
+  } else if(y == 'ender') {
+  document.getElementById('error').innerText = 'Choose a proper ending location!'
+  }
+  let blocks;
+  let stops;
+  let time;
+  $.getJSON( "https://larrytllama.cyclic.app/ice/long/" + x1[0] + '/' + x1[1] + '/' + y1[0] + '/' + y1[1], function( data ) {
+  let res = data.result;
+  blocks = res.length;
+  var c = document.getElementById("canvas");
+  var ctx = c.getContext("2d");
+  var img = document.getElementById("orig");
+  ctx.drawImage(img, 0, 0);
+  res.forEach(function(item, index) {
+  ctx.fillStyle = "#00ff00";
+  ctx.fillRect(item[0], item[1], 1, 1);
+  })
+  })
+  
+  let short = '';
+  $.getJSON( "https://larrytllama.cyclic.app/ice/short/" + x1[0] + '/' + x1[1] + '/' + y1[0] + '/' + y1[1], function( data ) {
+  let res = data.result;
+  stops = res.length;
+  let idk = blocks / 40; //40 Blocks/s on Packed ice
+  let what = stops * 1; //For each stop, add a second
+  let to = idk + what; //Add these together
+  let call = Math.round(to); //Nice number makerer
+  let these = `${blocks} Blocks - About ${call} seconds`
+  let variables = document.getElementById('timeinfo').innerText = these;
+  console.log(these);
+  //+y = South (Down)
+  //-y = North (Up)
+  //+x = East (Right)
+  //-x = West (Left)
+  })
+  
+  document.getElementById('canvas')
+  
+});
+
+function marker() {
+console.log('func start');
+let val = document.getElementById('lname').value;
+if(val == '') {
+return document.getElementById('playererror').innerText = "Please enter a name to check";
+}
+console.log(val);
+$.getJSON( "https://larrytllama.cyclic.app/pvc", async function( dat ) {
+let hasplayer = false;
+let data = JSON.parse(dat)
+let crowd = data.players;
+crowd.forEach(function(item, index) {
+if(item.name === val) {
+console.log('Got one!')
+document.getElementById('player').src = "https://crafatar.com/avatars/" + item.uuid;
+var c = document.getElementById("canvas");
+  var ctx = c.getContext("2d");
+  var img = document.getElementById("player");
+  let thingy = [item.x, item.z];
+  let otherThingy = convertToCoords(thingy);
+  console.log(otherThingy);
+  let errorror = document.getElementById('playererror');
+  if(item.world == "World_nether") {
+   ctx.drawImage(img, otherThingy[0], otherThingy[1]);
+  errorror.style.color = 'green';
+  hasplayer = true
+  return errorror.innerText = "Added your marker to the map!";
+  } else {
+  return errorror.innerText = "You're not in the nether!";
+  }
+}
+})
+if(hasplayer = false) document.getElementById('playererror').innerText = "We couldn't find your player name on our list! You can wait a minute, and we'll try and update it!";
+})
+}
+
+document.getElementById('playergo').addEventListener("click", marker)
+document.getElementById('playergo').addEventListener("touchend", marker)
+		}
+		</script>
+	</head>
+	<body class="right-sidebar is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<header id="header">
+				<img id="orig" style="display: none" src="iceway.png"></img>
+				<img id="player" style="display: none"></img>
+					<h1 id="logo"><a href="index.html">The Llama Iceways Project <span></span></a></h1>
+					<nav id="nav">
+						<ul>
+							<li class="current"><a href="index.html">Home</a></li>
+							<li class="current"><a href="https://peaceful-vanilla-club.fandom.com/wiki/Llama_Iceways">Wiki Page</a></li>
+							<li><a href="map.html" class="button primary">Back to Detailed Map</a></li>
+						</ul>
+					</nav>
+
+                
+				</header>
+
+			<!-- Main -->
+				<article id="main">
+
+					<!-- One -->
+						<section class="wrapper style4 container">
+							<span style="text-align: center;"><h2>Directions</h2></span>
+							<div class="row gtr-150">
+								<div class="col-8 col-12-narrower">
+
+									<!-- Content -->
+										<div class="content">
+											<section>
+												<header>
+													<h3>View on Map</h3>
+												</header>
+												<img usemap="">
+												<canvas id="canvas" width="481" height="492"></canvas>
+												</img>
+											</section>
+											<br>
+											<section>
+											<p id="timeinfo"></p>
+											<div id="steps">
+											</div>
+											<p>Journey times are estimated and probably aren't correct</p>
+											</section>
+										</div>
+
+								</div>
+								<div class="col-4 col-12-narrower">
+
+									<!-- Sidebar -->
+										<div class="sidebar">
+											<section>
+												<header>
+													<h3>Choose some routes</h3>
+												</header>
+												<select style="width: 100%" name="start" id="start">
+												<option value="starter" selected disabled>Choose the Start Location</option>
+												<option value="38 34"> BastionTown </option>
+												<option value="46 78"> The Building Society</option>
+												<option value="63 131"> The Emlands Atlantic </option>
+												<option value="83 137"> Moonland</option>
+												<option value="79 217"> The Dark Market</option>
+												<option value="79 343"> Kings' Hub </option>
+												<option value="79 355"> Bottlenose Cove </option>
+												<option value="79 355"> Quartz Hub </option>
+												<option value="36 251"> Betaways West </option>
+												<option value="230 247"> Blue Hub (Spawn)</option>
+												<option value="240 246"> Cobbletown </option>
+												<option value="249 234"> Green Hub (Spawn)</option>
+												<option value="275 254"> Yellow Hub (Spawn) </option>
+												<option value="246 274"> Pink Hub (Spawn) </option>
+												<option value="258 237"> EE (BIF HQ) </option>
+												<option value="249 158"> The Emlands </option>
+												<option value="239 123"> Potato Town </option>
+												<option value="159 78"> Saenctuary (UWU HQ) </option>
+												<option value="156 137"> IBU Gold Farm </option>
+												<option value="202 35"> BareBones </option>
+												<option value="342 88"> Sprucetown </option>
+												<option value="357 144"> Nietzsche's Victorian Villa </option>
+												<option value="300 147"> Spruce Iceway </option>
+												<option value="349 180"> Sunset Bay (And mall) </option>
+												<option value="408 198"> Llama Sanctuary</option> 
+												<option value="438 146"> HOP Monument </option>
+												<option value="438 209"> HOP HQ </option>
+												<option value="397 254"> Artemis </option>
+												<option value="431 253"> Flynn's Skeleton Farm </option>
+												<option value="447 254"> Certune Gold Farm</option>
+												<option value="447 254"> East Betaways </option>
+												<option value="415 406"> Flynn's Ocean Monument </option>
+												<option value="328 385"> Redstopia (ARC HQ) </option>
+												<option value="247 463"> South Betaways </option>
+												<option value="246 38"> North Betaways </option>
+												<option value="378 258"> Crimson Creek </option>
+												<option value="128 138"> Creeper Valley </option>
+												<option value="418 313"> HHU HQ </option>
+												</select>
+												<br>
+												To...<br>
+												<select style="width: 100%" name="end" id="end">
+												<option value="ender" selected disabled>Choose the End Location</option>
+  												<option value="38 34"> BastionTown </option>
+												<option value="46 78"> The Building Society</option>
+												<option value="63 131"> The Emlands Atlantic </option>
+												<option value="83 137"> Moonland</option>
+												<option value="79 217"> The Dark Market</option>
+												<option value="79 343"> Kings' Hub </option>
+												<option value="79 355"> Bottlenose Cove </option>
+												<option value="79 355"> Quartz Hub </option>
+												<option value="36 251"> Betaways West </option>
+												<option value="230 247"> Blue Hub (Spawn)</option>
+												<option value="240 246"> Cobbletown </option>
+												<option value="249 234"> Green Hub (Spawn)</option>
+												<option value="275 254"> Yellow Hub (Spawn) </option>
+												<option value="246 274"> Pink Hub (Spawn) </option>
+												<option value="258 237"> EE (BIF HQ) </option>
+												<option value="249 158"> The Emlands </option>
+												<option value="239 123"> Potato Town </option>
+												<option value="159 78"> Saenctuary (UWU HQ) </option>
+												<option value="156 137"> IBU Gold Farm </option>
+												<option value="202 35"> BareBones </option>
+												<option value="342 88"> Sprucetown </option>
+												<option value="357 144"> Nietzsche's Victorian Villa </option>
+												<option value="300 147"> Spruce Iceway </option>
+												<option value="349 180"> Sunset Bay (And mall) </option>
+												<option value="408 198"> Llama Sanctuary</option> 
+												<option value="438 146"> HOP Monument </option>
+												<option value="438 209"> HOP HQ </option>
+												<option value="397 254"> Artemis </option>
+												<option value="431 253"> Flynn's Skeleton Farm </option>
+												<option value="447 254"> Certune Gold Farm</option>
+												<option value="447 254"> East Betaways </option>
+												<option value="415 406"> Flynn's Ocean Monument </option>
+												<option value="328 385"> Redstopia (ARC HQ) </option>
+												<option value="247 463"> South Betaways </option>
+												<option value="246 38"> North Betaways </option>
+												<option value="378 258"> Crimson Creek </option>
+												<option value="128 138"> Creeper Valley </option>
+												<option value="418 313"> HHU HQ </option>
+												</select>
+												
+												<footer>
+													<ul class="buttons">
+													<br>
+														<li><a id="getDir" class="button small">Go!</a></li>
+													</ul>
+												</footer>
+												<p style="color: red;" id="error"></p>
+											</section>
+											<section>
+												<header>
+													<h3>Get your location<img alt=""src="Beta.png" style="margin-left: 5px;" height="15px;"></img></h3>
+												</header>
+												<label for="lname">Player Name:</label>
+												<input type="text" placeholder="*LarryTLlama" id="lname" name="lname"><br>
+												<footer>
+													<ul class="buttons">
+														<li><a id="playergo" class="button small">Go!</a></li>
+													</ul>
+												</footer>
+												<p id="playererror" style="color: red;"></p>
+											</section>
+										</div>
+
+								</div>
+							</div>
+						</section>
+				</article>
+
+			<!-- Footer -->
+				<footer id="footer">
+					<ul class="copyright">
+						<li>&copy; LarryTLlama</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+					<ul class="copyright">
+						<li>These directions say "go back up the page"</li>
+					</ul>
+				</footer>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollgress.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

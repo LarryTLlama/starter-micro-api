@@ -1,0 +1,934 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>The Llama Iceways Project</title>
+		<link rel="icon" type="image/x-icon" href="image.ico">
+		<meta charset="utf-8" />
+		<style>
+.totop {
+    position:absolute;
+    bottom:20px;
+    right:20px;
+}
+
+#rcorners {
+  border-radius: 50px;
+  background: url(images/totop.png);
+  background-position: left top;
+  background-repeat: repeat;
+  padding: 20px;
+  width: 80px;
+  height: 80px;
+}
+
+.totop2 {
+    position:absolute;
+    bottom:20px;
+    right:110px;
+}
+
+#rcorners2 {
+  border-radius: 50px;
+  background: url(images/ShareButton.png);
+  background-position: left top;
+  background-repeat: repeat;
+  padding: 20px;
+  width: 120px;
+  height: 80px;
+}
+</style>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+	</head>
+	<body class="no-sidebar is-preload" onload="mobilecheck()">
+        <script>
+		
+		function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+function goToMobile() {
+
+window.location = 'newbase.png'
+
+}
+
+        </script>
+        <script>
+    // Include and instantiate the class.
+require_once('Mobile_Detect.php');
+$detect = new Mobile_Detect;
+ 
+// Any mobile device (phones or tablets).
+if( $detect.isMobile() && !$detect.isTablet() ){
+    openForm()
+
+}
+</script>
+<script>
+
+    /*function mobilecheck() {
+    if(checkMob = true){
+  console.log('Mobile!')
+  openForm()
+  document.getElementById('mobileTest').innerHTML = 'True!'
+} else {
+    console.log('Not mobile!')
+    document.getElementById('mobileTest').innerHTML = 'False! :c'
+}
+}*/
+</script>
+	<style>
+	/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  /*background-color: #04AA6D;*/
+  color: black;
+  /*padding: 16px 20px;*/
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  /*background-color: red;*/
+}
+
+.to-black {
+color: blacl;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+
+::selection{
+  color: #fff;
+  background: #7d2ae8;
+}
+.view-modal, .popup{
+  position: absolute;
+  left: 50%;
+}
+button{
+  outline: none;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  transition: background 0.1s linear, border-color 0.1s linear, color 0.1s linear;
+}
+.view-modal{
+  top: 50%;
+  color: #7d2ae8;
+  font-size: 18px;
+  padding: 10px 25px;
+  background: #fff;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.popup{
+  background: #fff;
+  padding: 25px;
+  border-radius: 15px;
+  top: -150%;
+  max-width: 380px;
+  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+  transform: translate(-50%, -50%) scale(1.2);
+  transition: top 0s 0.2s ease-in-out,
+              opacity 0.2s 0s ease-in-out,
+              transform 0.2s 0s ease-in-out;
+}
+.popup.show{
+  top: 50%;
+  opacity: 1;
+  pointer-events: auto;
+  position: absolute;
+  transform:translate(-50%, -50%) scale(1);
+  transition: top 0s 0s ease-in-out,
+              opacity 0.2s 0s ease-in-out,
+              transform 0.2s 0s ease-in-out;
+
+}
+.popup :is(header, .icons, .field){
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.popup header{
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ebedf9;
+}
+header span{
+  font-size: 21px;
+  font-weight: 600;
+}
+header .close, .icons a{
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+}
+header .close{
+  color: #878787;
+  font-size: 17px;
+  background: #f2f3fb;
+  height: 33px;
+  width: 33px;
+  cursor: pointer;
+}
+header .close:hover{
+  background: #ebedf9;
+}
+.popup .content{
+  margin: 20px 0;
+}
+.popup .icons{
+  margin: 15px 0 20px 0;
+}
+.content p{
+  font-size: 16px;
+}
+.content .icons a{
+  height: 50px;
+  width: 50px;
+  font-size: 20px;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+.icons a i{
+  transition: transform 0.3s ease-in-out;
+}
+.icons a:nth-child(1){
+  color: #1877F2;
+  border-color: #b7d4fb;
+}
+.icons a:nth-child(1):hover{
+  background: #1877F2;
+}
+.icons a:nth-child(2){
+  color: #46C1F6;
+  border-color: #b6e7fc;
+}
+.icons a:nth-child(2):hover{
+  background: #46C1F6;
+}
+.icons a:nth-child(3){
+  color: #e1306c;
+  border-color: #f5bccf;
+}
+.icons a:nth-child(3):hover{
+  background: #e1306c;
+}
+.icons a:nth-child(4){
+  color: #25D366;
+  border-color: #bef4d2;
+}
+.icons a:nth-child(4):hover{
+  background: #25D366;
+}
+.icons a:nth-child(5){
+  color: #0088cc;
+  border-color: #b3e6ff;
+}
+.icons a:nth-child(5):hover{
+  background: #0088cc;
+}
+.icons a:hover{
+  color: #fff;
+  border-color: transparent;
+}
+.icons a:hover i{
+  transform: scale(1.2);
+}
+.content .field{
+  margin: 12px 0 -5px 0;
+  height: 45px;
+  border-radius: 4px;
+  padding: 0 5px;
+  border: 1px solid #e1e1e1;
+}
+.field.active{
+  border-color: #7d2ae8;
+}
+.field i{
+  width: 50px;
+  font-size: 18px;
+  text-align: center;
+}
+.field.active i{
+  color: #7d2ae8;
+}
+.field input{
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 15px;
+}
+.field button{
+  color: #fff;
+  padding: 5px 18px;
+  background: #7d2ae8;
+}
+.field button:hover{
+  background: #8d39fa;
+}
+
+@media (max-width:736px){
+ /* Link */
+ div > a{
+  width:9% !important;
+  padding-bottom:12px;
+  height:48px !important;
+ }
+ .itsthemap {
+    width: 100%;
+    height: auto;
+}
+}
+
+
+</style>
+	<div class="form-popup" id="myForm">
+	<form action="/action_page.php" class="form-container">
+    <h3 class="to-black">Switch to mobile?</h3>
+	<p class="to-black">We found you're on a mobile browser.</br> Want to view the mobile version of the map?</p>
+    <button type="submit" class="btn" href='https://llamaiceways.great-site.net/newbase.png'>Go to mobile map</button></br>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+	</form>
+	</div>
+	<a href="#top">
+	<div id="rcorners" href="#top" class="totop" style="width: 80px; background-color: #999; z-index: 10; position: fixed; height: 80px;">
+
+        </div>
+	</a>
+    <a href="javascript:viewBtn()">
+    <div id="rcorners2" href="javascript:viewBtn()" class="totop2" style="width: 120px; background-color: #999; z-index: 10; position: fixed; height: 80px; background: url(images/ShareButton.png);">
+	<!--<span class="icon solid fa-arrow-up"></span>-->
+	<!--<img src="images/angle-up.png" style="width: 80px; height: 80px;" </img>-->
+	</div>
+	</a>
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<h1 id="logo"><a href="index.html">The Llama Iceways Project <span></span></a></h1>
+					<nav id="nav">
+						<ul>
+							<li class="current"><a href="index.html">Home</a></li>
+							<li class="current"><a href="https://peaceful-vanilla-club.fandom.com/wiki/Llama_Iceways">Wiki Page</a></li>
+							<li><a href="map.html" class="button primary">Open Map</a></li>
+						</ul>
+					</nav>
+
+                    <div class="popup">
+    <header>
+      <span>Share Modal</span>
+      <div class="close"><i class="uil uil-times"></i></div>
+    </header>
+    <div class="content">
+      <p>Share the Llama Iceways'</p>
+      <ul class="icons">
+        <a href="javascript:copyImg()"><i class="fa fa-image"></i></a>
+		<a href="javascript:copyText('https://llamaiceways.great-site.net/map.html')" id="clicky1"><i class="fa fa-link"></i></a>
+        <a href="javascript:copyText('https://peaceful-vanilla-club.fandom.com/wiki/Llama_Iceways')" id="clicky0"><i class="fa fa-book"></i></a>
+		<a href="#"><i class="fa fa-thingymabob"></i></a>
+		<a href="#"><i class="fa fa-thingymabob"></i></a>
+      </ul>
+    </div>
+    <p><a href="newbase.png">View the image here without copying it</a></p>
+    <p id="CopyStatus">Click on a button to copy something!</p>
+  </div>
+				</header>
+
+                
+
+  <script>
+    const popup = document.querySelector(".popup"),
+    close = popup.querySelector(".close");
+
+	async function copyText(url) {
+        var verycoolvariable = '';
+        navigator.clipboard.writeText(url).catch(err => {
+           return document.getElementById('CopyStatus').innerHTML = 'An error occured when trying to copy'; 
+        });
+        if(url.includes('fandom')) {
+            verycoolvariable = 'Copied wiki link!'
+        } else if(url.includes('llamaiceways')) {
+            verycoolvariable = 'Copied Map Link'
+        }
+        document.getElementById('CopyStatus').innerHTML = verycoolvariable;
+
+    }
+
+	async function copyImg() {
+	try {
+    const imgURL = 'newbase.png';
+    const data = await fetch(imgURL);
+    const blob = await data.blob();
+
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        [blob.type]: blob
+      })
+    ]);
+   console.log('Copied!')
+   document.getElementById('CopyStatus').innerHTML = verycoolvariable;
+  } catch(err) {
+    console.log(err)
+	
+  }
+}
+	
+   function viewBtn() {
+      popup.classList.toggle("show");
+    }
+    close.onclick = ()=>{
+      viewBtn.click();
+    }
+  </script>
+
+			<!-- Main -->
+				<article id="main">
+
+					<header class="special container">
+					<span class="icon solid fa-ship"></span>
+						<h2><strong>Click on a stop below to view its info</strong></h2>
+						<img src="newbase.png" class="itsthemap" alt="Workplace" usemap="#icemap">
+                        <p style="text-align: center">Not showing correctly? <a href="https://llamaiceways.great-site.net/newbase.png">Click here to get an image-only version!</a></p>
+						<map name="icemap">
+						<area shape="circle" coords="103,99,8" alt="EA" href='#ea' class="myDIV">
+						<area shape="circle" coords="157,13,8" alt="MOON" href='#moon' class="myDIV">
+						<area shape="circle" coords="157,113,8" alt="MOON" href='#moon' class="myDIV">
+						<area shape="circle" coords="130,73,8" alt="TRENCH" href='#trench' class="myDIV">
+						<area shape="circle" coords="130,275,8" alt="DARKM" href='#dm' class="myDIV">
+						<area shape="circle" coords="251,86,8" alt="IBU" href='#ibu' class="myDIV">
+						<area shape="circle" coords="292,86,8" alt="SAE" href='#sae' class="myDIV">
+						<area shape="circle" coords="373,45,8" alt="BB" href='#bb' class="myDIV">
+						<area shape="circle" coords="224,477,8" alt="Kings" href='#kings' class="myDIV">
+						<area shape="circle" coords="131,517,8" alt="cove" href='#cove' class="myDIV">
+						<area shape="circle" coords="225,531,8" alt="quartz" href='#quartz' class="myDIV">
+						<area shape="circle" coords="683,531,8" alt="redst" href='#redst' class="myDIV">
+						<area shape="circle" coords="427,396,8" alt="blue" href='#blue' class="myDIV">
+						<area shape="circle" coords="454,357,8" alt="blue" href='#blue' class="myDIV">
+						<area shape="circle" coords="512,315,8" alt="green" href='#green' class="myDIV">
+						<area shape="circle" coords="576,356,8" alt="yellow" href='#yellow' class="myDIV">
+						<area shape="circle" coords="522,397,8" alt="pink" href='#pink' class="myDIV">
+						<area shape="circle" coords="792,382,8" alt="crim" href='#crim' class="myDIV">
+						<area shape="circle" coords="561,288,8" alt="ee" href='#ee' class="myDIV">
+						<area shape="circle" coords="494,153,8" alt="ems" href='#ems' class="myDIV">
+						<area shape="circle" coords="481,73,8" alt="poug" href='#poug' class="myDIV">
+						<area shape="circle" coords="724,85,8" alt="spruce" href='#spruce' class="myDIV">
+						<area shape="circle" coords="765,113,8" alt="villa" href='#villa' class="myDIV">
+						<area shape="circle" coords="724,179,8" alt="sb" href='#sb' class="myDIV">
+						<area shape="circle" coords="886,342,8" alt="art" href='#art' class="myDIV">
+						<area shape="circle" coords="927,221,8" alt="llama" href='#llama' class="myDIV">
+						<area shape="circle" coords="980,140,8" alt="hop" href='#hop' class="myDIV">
+						<area shape="circle" coords="1008,302,8" alt="hop" href='#hop' class="myDIV">
+						<area shape="circle" coords="1008,288,8" alt="tcc" href='#tcc' class="myDIV">
+						<area shape="circle" coords="994,329,8" alt="skel" href='#skel' class="myDIV">
+						<area shape="circle" coords="1034,370,8" alt="cert" href='#cert' class="myDIV">
+						<area shape="circle" coords="966,437,8" alt="hhu" href='#hhu' class="myDIV">
+						<area shape="circle" coords="994,491,8" alt="flynn" href='#flynn' class="myDIV">
+						</map>
+						<script>
+						let switched;
+						
+						</script>
+						<ul class="buttons">
+						<li><a href="directions.html" class="button">Directions</a></li>
+						</ul>
+					</header>
+
+					<!-- One -->
+						<section class="wrapper style4 container">
+
+							<!-- EA -->
+							
+							<div class="content" id="ibu">
+									<section>
+										<a class="image featured"><img src="images/placeholder.png" alt="" /></a>
+										<header>
+											<h3>The IBU Gold Farm</h3>
+										</header>
+										<p>A huge gold farm in the shape of a puzzle cube</p>
+										<p>Coordinates: -3000, -5600</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/The_Emlands">The Emlands</a></p>
+									</section>
+								</div>
+								
+								<div class="content" id="ea">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/931234915830358186/unknown.png?width=829&height=434" alt="" /></a>
+										<header>
+											<h3>The Emlands Atlantic</h3>
+										</header>
+										<p>A popular shopping mall, situated in a large spacious dome. It has a casino and a PVP area.</p>
+										<p>Coordinates: -6250 -4120</p>
+										<p>Wiki page: N/A</p>
+									</section>
+								</div>
+
+
+							<!--  -->
+								<div class="content" id="moon">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/947032257443545128/2022-02-25_23.49.58.png?width=855&height=434" alt="" /></a>
+										<header>
+											<h3>Moonland</h3>
+										</header>
+										<p>A massive shopping mall boasting many features such as Angrenost, the NEU HQ as well as a gold farm and PVP arena.</p>
+										<p>Coordinates: -5820 -3970</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Moonland_Mall">Moonland Mall</a></p>
+									</section>
+								</div>
+					
+						<div class="content" id="trench">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/946844506848890910/2022-02-25_01.41.19.png?width=855&height=434" alt="" /></a>
+										<header>
+											<h3>The Trench</h3>
+										</header>
+										<p>A large-scale mining project which spans a vast area.</p>
+										<p>Coordinates: -5340 -6900</p>
+										<p>Wiki page: N/A</p>
+									</section>
+								</div>
+					
+						
+						<div class="content" id="dm">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/943671431252811846/2022-02-16_19.51.57.png?width=855&height=434" alt="" /></a>
+										<header>
+											<h3>Dark Market</h3>
+										</header>
+										<p>A shopping area with many player-built stalls and multiple farms.</p>
+										<p>Coordinates: -715 -160 (Nether)</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Dark_Market">Dark Market</a></p>
+									</section>
+								</div>
+<!---->
+						<div class="content" id="sae">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/904966659847118868/2021-11-02_01.29.17.png?width=772&height=434" alt="" /></a>
+										<header>
+											<h3>Saenctuary</h3>
+										</header>
+										<p>Large base with a spacious librarian villager hall</p>
+										<p>Coordinates: -2800 -7000</p>
+										<p>Wiki page: N/A</p>
+									</section>
+								</div>
+					
+						<div class="content" id="bb">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/937748309840363570/unknown.png?width=841&height=434" alt="" /></a>
+										<header>
+											<h3>BareBones</h3>
+										</header>
+										<p>Large gold farm built by Aus3z</p>
+										<p>Coordinates: -1100, -7300</p>
+										<p>Wiki page: <a https://peaceful-vanilla-club.fandom.com/wiki/Barebones_Public_Farms>Barebones Public Farms</a></p>
+									</section>
+								</div>
+					
+						<div class="content" id="kings">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/946844283556737076/2022-02-24_19.01.24.png?width=774&height=393" alt="" /></a>
+										<header>
+											<h3>Kings Hub</h3>
+										</header>
+										<p>Nether area, known for the server's only stock market.</p>
+										<p>Coordinates: Coming soon!</p>
+										<p>Wiki page: N/A</p>
+									</section>
+								</div>
+					
+						<div class="content" id="cove">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/946844060176494632/2022-02-24_18.58.34.png?width=855&height=434" alt="" /></a>
+										<header>
+											<h3>Bottlenose Cove</h3>
+										</header>
+										<p>Small town with scenic views</p>
+										<p>Coordinates:  -5440, 3350</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Bottlenose_Cove">Bottlenose Cove</a></p>
+									</section>
+								</div>
+					
+						<div class="content" id="quartz">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/916172448884465674/2021-12-02_22.40.58.png?width=797&height=434" alt="" /></a>
+										<header>
+											<h3>Quartz Hub</h3>
+										</header>
+										<p>Massive hub with in-nether shops contained in a huge building.</p>
+										<p>Coordinates: -600 500</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Quartz_Hub">Quartz Hub</a></p>
+									</section>
+								</div>
+			
+						<div class="content" id="redst">
+									<section>
+										<a class="image featured"><img src="images/placeholder.png" alt="" /></a>
+										<header>
+											<h3>Redstopia</h3>
+										</header>
+										<p>Large area and HQ for the ARC union.</p>
+										<p>Coordinates: Coming soon!</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Redstopia">Redstopia</a></p>
+									</section>
+								</div>
+				
+						<div class="content" id="blue">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/612224391715094538/859863853638090803/unknown.png?width=808&height=435" alt="" /></a>
+										<header>
+											<h3>Blue Hub</h3>
+										</header>
+										<p>West nether spawn hub</p>
+										<p>Coordinates: Coming soon!</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Spawn">Spawn</a></p>
+									</section>
+								</div>
+					
+						<div class="content" id="green">
+									<section>
+										<a class="image featured"><img src="images/placeholder.png" alt="" /></a>
+										<header>
+											<h3>Green hub</h3>
+										</header>
+										<p>North nether spawn hub</p>
+										<p>Coordinates: Coming soon!</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Spawn">Spawn</a></p>
+									</section>
+								</div>
+					
+						<div class="content" id="yellow">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/809700099747872808/Screenshot_20210212-021638.png?width=941&height=434" alt="" /></a>
+										<header>
+											<h3>Yellow Hub</h3>
+										</header>
+										<p>East nether spawn hub</p>
+										<p>Coordinates: Coming soon!</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Spawn">Spawn</a></p>
+									</section>
+								</div>
+
+						<div class="content" id="pink">
+									<section>
+										<a class="image featured"><img src="images/placeholder.png" alt="" /></a>
+										<header>
+											<h3>Pink Hub</h3>
+										</header>
+										<p>Pink nether spawn hub</p>
+										<p>Coordinates: Coming soon!</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Spawn">Spawn</a></p>
+									</section>
+								</div>
+					
+						<div class="content" id="crim">
+									<section>
+										<a class="image featured"><img src="images/placeholder.png" alt="" /></a>
+										<header>
+											<h3>Crimson Creek Hub</h3>
+										</header>
+										<p>A small nether hub featuring homes of multiple players</p>
+										<p>Coordinates: Coming soon!</p>
+										<p>Wiki page: N/A</p>
+									</section>
+								</div>
+					
+						<div class="content" id="ee">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/612224391715094538/890167987435368448/image0.png?width=496&height=248" alt="" /></a>
+										<header>
+											<h3>EE</h3>
+										</header>
+										<p>Large supermarket type shop, next to the BIF Union HQ. (EE is currently closed)</p>
+										<p>Coordinates: 410 -220</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/EE">EE</a></p>
+									</section>
+								</div>
+				
+						<div class="content" id="ems">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/909525891485421639/IMG_1578.png?width=662&height=362" alt="" /></a>
+										<header>
+											<h3>The Emlands (Original)</h3>
+										</header>
+										<p>A mid-size shopping area with nice riverside views, and a casino</p>
+										<p>Coordinates: 0, -3500</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/The_Emlands">The Emlands</a></p>
+									</section>
+								</div>
+						<div class="content" id="poug">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/586575693341786133/897647405195993108/unknown.png?width=688&height=376" alt="" /></a>
+										<header>
+											<h3>Potato Town</h3>
+										</header>
+										<p>A player-made town and HQ of former union POU</p>
+										<p>Coordinates: -420, -4500</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Potato_Town">Potato Town</a></p>
+									</section>
+								</div>
+						<div class="content" id="spruce">
+									<section>
+										<a class="image featured"><img src="images/placeholder.png" alt="" /></a>
+										<header>
+											<h3>Sprucetown</h3>
+										</header>
+										<p>A large player built town</p>
+										<p>Coordinates: 3300, -5300</p>
+										<p>Wiki page: N/A</p>
+									</section>
+								</div>
+						<div class="content" id="villa">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589416108390350849/930549205842403328/1.png?width=825&height=434" alt="" /></a>
+										<header>
+											<h3>The Nietzsche Victorian Villa</h3>
+										</header>
+										<p>A very large villa known for being featured on the PVC home page and the host for the end event of Jan 2022.</p>
+										<p>Coordinates: 4100, -3700</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Nietzsche%27s_Victorian_Villa">Nietzsche's Victorian Villa</a></p>
+									</section>
+								</div>
+						<div class="content" id="sb">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/938704173044727818/2022-02-03_02.54.37.png?width=855&height=434" alt="" /></a>
+										<header>
+											<h3>Sunset Bay</h3>
+										</header>
+										<p>Huge town hosting the GCU Union HQ alongside a spacious mall and casino.</p>
+										<p>Coordinates: 3400, -2300</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Sunset_Bay">Sunset Bay</a> and <a href="https://peaceful-vanilla-club.fandom.com/wiki/Sunset_Bay_Mall">Sunset Bay Mall</a></p>
+									</section>
+								</div>
+						<div class="content" id="art">
+									<section>
+										<a class="image featured"><img src="images/placeholder.png" alt="" /></a>
+										<header>
+											<h3>Artemis</h3>
+										</header>
+										<p>A large tower mega-build created by HippoTheGamer</p>
+										<p>Coordinates: Coming soon!</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/The_Builder_House">The Builder House</a></p>
+									</section>
+								</div>
+						<div class="content" id="llama">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/615160123609972781/892124921902297098/image_13.png?width=537&height=270" alt="" /></a>
+										<header>
+											<h3>The Llama Sanctuary</h3>
+										</header>
+										<p>A large mountainside theme park and zoo combo with many llamas.</p>
+										<p>Coordinates: 5600, -1900</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/LarryTLlama%27s_Llama_Sanctuary">LarryTLlama's Llama Sanctuary</a></p>
+									</section>
+								</div>
+						<div class="content" id="hop">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/916958132071178320/unknown.png?width=890&height=435" alt="" /></a>
+										<header>
+											<h3>HOP (HQ)</h3>
+										</header>
+										<p>The HOP union HQ and library.</p>
+										<p>Coordinates: 6700, -1550</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Historians_of_PVC">Historians of PVC</a></p>
+									</section>
+								</div>
+						<div class="content" id="tcc">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/893515928879386694/2021-10-01_10.08.12.png?width=772&height=434" alt="" /></a>
+										<header>
+											<h3>The Cave Civilisation (TCC)</h3>
+										</header>
+										<p>Small town based challenging the harsh betalands features</p>
+										<p>Coordinates: 8000, -1800</p>
+										<p>Wiki page: N/A</p>
+									</section>
+								</div>
+						<div class="content" id="skel">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/622191431171178496/926490697954099210/2021-12-30_18.51.12.png?width=797&height=434" alt="" /></a>
+										<header>
+											<h3>The Skeleton Farm</h3>
+										</header>
+										<p>Small public farm for farming skeletons.</p>
+										<p>Coordinates: Coming soon!</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Flynn%27s_Skeleton_Farm">Flynn's Skeleton Farm</a></p>
+									</section>
+								</div>
+						<div class="content" id="cert">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/612224391715094538/775487889563582495/2020-11-07_17.52.08.png?width=772&height=434" alt="" /></a>
+										<header>
+											<h3>Certune</h3>
+										</header>
+										<p>A nether shop and gold farm, known for holding the first nether claim</p>
+										<p>Coordinates: 6555, 0</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Certune">Certune</a></p>
+									</section>
+								</div>
+						<div class="content" id="hhu">
+									<section>
+										<a class="image featured"><img src="https://media.discordapp.net/attachments/589415618160230410/898284314863751238/E639D130-1BD1-49BD-8E79-833FDE1DF552.png?width=640&height=359" alt="" /></a>
+										<header>
+											<h3>HHU HQ</h3>
+										</header>
+										<p>Union base and HQ for HHU</p>
+										<p>Coordinates: 5893, 1997</p>
+										<p>Wiki page: <a href="https://peaceful-vanilla-club.fandom.com/wiki/Helping_Hand_Union">Helping Hand Union</a></p>
+									</section>
+								</div>
+						<div class="content" id="flynn">
+									<section>
+										<a class="image featured"><img src="images/placeholder.png" alt="" /></a>
+										<header>
+											<h3>Flynn's Ocean Monument</h3>
+										</header>
+										<p>A mysterious structure built by Flynn</p>
+										<p>Coordinates: Coming soon!</p>
+										<p>Wiki page: N/A</p>
+									</section>
+								</div>
+						</section>
+
+					<!-- Two -->
+						<section class="wrapper style1 container special">
+							<div class="row">
+								<div class="col-4 col-12-narrower">
+
+									<section>
+										<header>
+											<h3>Discord</h3>
+										</header>
+										<p>We have an official discord! Join using the button below.</p>
+										<footer>
+											<ul class="buttons">
+												<li><a href="https://discord.gg/DGacrEXFcH" class="button small">Join here</a></li>
+											</ul>
+										</footer>
+									</section>
+
+								</div>
+								<div class="col-4 col-12-narrower">
+
+									<section>
+										<header>
+											<h3>Where can I find the Iceways?</h3>
+										</header>
+										<p>Check out <a href="https://peacefulvanilla.club">PVC</a>, A minecraft server. Its in the nether, around Y79.</p>
+										<footer>
+											<ul class="buttons">
+												<li><a href="https://peacefulvanilla.club" class="button small">Learn More</a></li>
+											</ul>
+										</footer>
+									</section>
+
+								</div>
+								<div class="col-4 col-12-narrower">
+
+									<section>
+										<header>
+											<h3>Wiki Page</h3>
+										</header>
+										<p>Want <strong>more</strong> info? Check out our wiki page!</p>
+										<footer>
+											<ul class="buttons">
+												<li><a href="https://peaceful-vanilla-club.fandom.com/wiki/Llama_Iceways" class="button small">Go to the wiki</a></li>
+											</ul>
+										</footer>
+									</section>
+
+								</div>
+							</div>
+						</section>
+
+				</article>
+
+			<!-- Footer -->
+				<footer id="footer">
+					<ul class="copyright">
+						<li>&copy; LarryTLlama</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+					<ul class="copyright">
+						<li>You've reached the end *clap clap*</li>
+					</ul>
+                    <ul class="copyright">
+						<li id="mobileTest">As a quick test, we just ran something. You're on..</li>
+					</ul>
+				</footer>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollgress.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

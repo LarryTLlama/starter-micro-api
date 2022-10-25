@@ -46,6 +46,24 @@ app.get("/info", function (req, res) {
 app.get("/errors", function (req, res) {
   res.sendFile(path.join(__dirname + "/routes/site/errors.json"));
 })
+
+// Llama Iceways Stuff
+app.get('/llama-iceways', (req, res) => {
+	res.sendFile(path.join(__dirname, 'llama-iceways/index.html'))
+})
+
+app.get('/llama-iceways/map', (req, res) => {
+	res.sendFile(path.join(__dirname, "llama-iceways/map.html"))
+})
+
+app.get('/llama-iceways/directions', (req, res) => {
+	res.sendFile(path.join(__dirname, "llama-iceways/directions.html"))
+})
+
+app.get('/llama-iceways/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '/llama-iceways/' + req.params.file));
+})
+
 app.get('/pvc', getPlayers);
 app.get('/ice/long/:startx/:starty/:endx/:endy', function (req, res) {
 var PF = require('pathfinding');
@@ -143,224 +161,6 @@ var transporter = nodemailer.createTransport({
   });
 
 const editJsonFile = require("edit-json-file");
-
-// If the file doesn't exist, the content will be an empty object by default.
-/*
-
-app.use("/email/add/:email/:type", async function(req, res) {
-	//Adding emails
-	//Getting email from url
-const p = req.params;
-if(p.type == "bedrock") {
-//Get the json file
-let file = editJsonFile(`${__dirname}/bedrock.json`);
-let content = await file.get().list;
-//If we dont already have the email address
-if(content.indexOf(p.email) == -1) {
-//Add the email to the content
-content.push(p.email)
-//And save it!
-file.set("list", content);
-file.save();
-//Everything is okay!
-
-	var mailOptions = {
-		from: 'pvclarrytllamanotifications@gmail.com',
-		to: p.email,
-		subject: 'PVC Notification Service - Added!',
-		text: `Yo, thanks for joining our mailing list! You'll get an email when the Bedrock server goes offline. \nCheck status now: https://larrytllama.github.io/pvc-status \nUnsubcribe: https://larrytllama.cyclic.app/email/remove/${p.email}/bedrock`		  
-	};
-	  transporter.sendMail(mailOptions, function(error, info){
-		if (error) {
-		  console.log(error);
-		} else {
-		  console.log(`Sign-up email sent to ${item}: ` + info.response);
-		}
-	  });
-
-return res.status(200).send(`Email address added to mailing list!\n Check your inbox for a confirmation!\n\n Subscribed by mistake? Unsubscribe here: https://larrytllama.cyclic.app/email/remove/${p.email}/${p.type}`)
-} else {
-	//We've already got this email address, try again later!
-	return res.status(409).send(`Whoops, you're already added!\n Did you mean to unsubscribe? https://larrytllama.cyclic.app/email/remove/${p.email}/${p.type}`)
-}
-} else if(p.type == "java") {
-	//Get the json file
-let file = editJsonFile(`${__dirname}/java.json`);
-let content = await file.get().list;
-//If we dont already have the email address
-if(content.indexOf(p.email) == -1) {
-//Add the email to the content
-content.push(p.email)
-//And save it!
-file.set("list", content);
-file.save();
-//Everything is okay!
-var mailOptions = {
-	from: 'pvclarrytllamanotifications@gmail.com',
-	to: p.email,
-	subject: 'PVC Notification Service - Added!',
-	text: `Yo, thanks for joining our mailing list! You'll get an email when the Java server goes offline. \nCheck status now: https://larrytllama.github.io/pvc-status \nUnsubcribe: https://larrytllama.cyclic.app/email/remove/${p.email}/bedrock`		  
-};
-  transporter.sendMail(mailOptions, function(error, info){
-	if (error) {
-	  console.log(error);
-	} else {
-	  console.log(`Sign-up email sent to ${item}: ` + info.response);
-	}
-  });
-return res.status(200).send(`Email address added to mailing list!\n Check your inbox for a confirmation!\n\n Subscribed by mistake? Unsubscribe here: https://larrytllama.cyclic.app/email/remove/${p.email}/${p.type}`)
-} else {
-	//We've already got this email address, try again later!
-	return res.status(409).send(`Whoops, you're already added!\n Did you mean to unsubscribe? https://larrytllama.cyclic.app/email/remove/${p.email}/${p.type}`)
-
-}
-}
-});
-
-app.use("/email/remove/:email/:type", async function(req, res) {
-	//Adding emails
-	//Getting email from url
-const p = req.params;
-//Get the json file
-if(p.type == "bedrock") {
-let file = editJsonFile(`${__dirname}/bedrock.json`);
-let content = await file.get().list;
-//If we don't have the email address
-if(content.indexOf(p.email) == -1) {
-//Tell them to subscribe first!
-return res.status(409).send('Your email isn\'t on our list yet!')
-} else {
-	//We've already got this email address, try again later!
-	content.splice (content.indexOf(p.email), 1);
-	file.set("list", content);
-	file.save();
-	return res.status(200).send('We have removed your email from our list. Sad to see you go!')
-}
-} else if(p.type == "java") {
-	let file = editJsonFile(`${__dirname}/java.json`);
-let content = await file.get().list;
-//If we don't have the email address
-if(content.indexOf(p.email) == -1) {
-//Tell them to subscribe first!
-return res.status(409).send('We couldn\'t find your email on our list. Maybe you meant to add it first?')
-} else {
-	//We've already got this email address, try again later!
-	content.splice (content.indexOf(p.email), 1);
-	file.set("list", content);
-	file.save();
-	return res.status(200).send("We have removed your email. Sad to see you go!")
-}
-}
-
-});
-
-Error handling
-app.use((req, res, next) => {
-    const error = new Error('not found');
-    return res.status(404).json({
-        message: error.message
-    });
-});
-
-const EventEmitter = require('events');
-//Java events
-const java = new EventEmitter();
-//Bedrock events
-const bedrock = new EventEmitter();
-
-//Alright, time for java
-const options = {
-    timeout: 1000 * 5, 
-    enableSRV: true
-};
-
-let minutesdown = 0;
-let e;
-setInterval(async function() {
-util.status('mc.peacefulvanilla.club', 25565, options)
-    .then((result) => {
-		//Do nothing :DDD
-		minutesdown = 0;
-	})
-    .catch(async (error) => {
-		//Here we go!
-		minutesdown++;
-		e = error;
-		console.log("JAVA Error " + minutesdown + ": " + error)
-	});
-	if(minutesdown == 5) {
-		//Wuh oh, we're seriously down!
-		let file = editJsonFile(`${__dirname}/java.json`);
-		let content = await file.get().list;
-		let d = new Date().toString()
-		content.forEach(function(item, index) {
-		var mailOptions = {
-			from: 'pvclarrytllamanotifications@gmail.com',
-			to: item,
-			subject: 'Peaceful Vanilla Club is Offline!',
-			text: `This is a notification to let you know that we failed to connect to Peaceful Vanilla Club (java).\nCheck status now: https://larrytllama.github.io/pvc-status \nConnection error: ${e} \nTime: ${d}.\nUnsubcribe: https://larrytllama.cyclic.app/email/remove/${item}/java `
-		  };
-		  transporter.sendMail(mailOptions, function(error, info){
-			if (error) {
-			  console.log(error);
-			} else {
-			  console.log(`Java error Email sent to ${item}: ` + info.response);
-			}
-		  });
-	})
-	}
-
-}, 60000)
-
-//And now, bedrock
-const newoptions = {
-    enableSRV: true
-};
-
-let newminutesdown = 0;
-let newe;
-setInterval(async function() {
-axios.get('https://api.mcstatus.io/v1/status/bedrock/bedrock.peacefulvanilla.club')
-.then((response) => {
-	//We got it! Yay!
-	if(response.data.online) {
-		newminutesdown = 0;
-	} else if(response.data.online == false) {
-		newminutesdown++;
-		console.log('Bedrock down!')
-	} else {
-		console.log('Wuh oh, something went wrong')
-	}
-})
-.catch((error) => {
-	console.log(error)
-})
-	if(newminutesdown == 5) {
-		//Wuh oh, we're seriously down!
-		let file = editJsonFile(`${__dirname}/bedrock.json`);
-		let content = await file.get().list;
-		let d = new Date().toString()
-		content.forEach(function(item, index) {
-		var mailOptions = {
-			from: 'pvclarrytllamanotifications@gmail.com',
-			to: item,
-			subject: 'Peaceful Vanilla Club is Offline!',
-			text: `This is a notification to let you know that we failed to connect to Peaceful Vanilla Club (bedrock).\nCheck status now: https://larrytllama.github.io/pvc-status \nConnection error: ${newe} \nTime: ${d}.\nUnsubcribe: https://larrytllama.cyclic.app/email/remove/${item}/bedrock`		  
-		};
-		  transporter.sendMail(mailOptions, function(error, info){
-			if (error) {
-			  console.log(error);
-			} else {
-			  console.log(`Email sent to ${item}: ` + info.response);
-			}
-		  });
-	})
-	}
-
-}, 60000)
-
-setTimeout(function() {console.log("1 minute!")}, 60000)
-*/
 process.on('uncaughtException', err => {
 	console.log('There was an uncaught error', err);
 	process.exit(1); // mandatory (as per the Node.js docs)
