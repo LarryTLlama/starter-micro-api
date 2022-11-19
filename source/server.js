@@ -104,6 +104,27 @@ app.get('/llama-iceways/assets/webfonts/:file', (req, res) => {
 	res.sendFile(path.join(__dirname, '../llama-iceways/assets/webfonts/' + req.params.file));
 })
 
+app.get('/maps/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../maps/' + req.params.file));
+})
+
+app.get('/maps/leaflet/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../maps/leaflet/' + req.params.file));
+})
+
+app.get('/maps/leaflet/images/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../maps/leaflet/images/' + req.params.file));
+})
+
+
+
+// Gandalf :D
+app.get('/secret', (req, res) => {
+	const ytdl = require('ytdl-core');
+	res.set('Content-Type', 'video/mp4')
+	res.send(ytdl('https://www.youtube.com/watch?v=G1IbRujko-A&t=20s'));
+})
+
 app.get('/pvc', getPlayers);
 app.get('/ice/long/:startx/:starty/:endx/:endy', function (req, res) {
 var PF = require('pathfinding');
