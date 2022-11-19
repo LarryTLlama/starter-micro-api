@@ -109,7 +109,7 @@ app.get('/maps/:file', (req, res) => {
 	res.sendFile(path.join(__dirname, '../maps/' + req.params.file));
 })
 
-app.get('/maps/tiles/:z/:x/:y/.png', async (req, res) => {
+app.get('/maps/tiles/:z/:x/:y', async (req, res) => {
 	res.setHeader('Content-Type', 'image/apng')
 	let img = await request('https://web.peacefulvanilla.club/maps/tiles/World/' + req.params.z + '/' + req.params.x + '_' + req.params.y + '.png')
 	res.send(img)
