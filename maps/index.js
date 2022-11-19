@@ -28,7 +28,7 @@ const TileLayerCustom = L.TileLayer.extend({
         } else if(coords.z == 5) {
             return `http://web.peacefulvanilla.club/maps/tiles/World/${coords.z}/${coords.x}_${coords.y}.png`;
         }*/
-        return `http://web.peacefulvanilla.club/maps/tiles/World/${coords.z}/${coords.x}_${coords.y}.png`;
+        return `http://web.peacefulvanilla.club/maps/tiles/World/${coords.z}/${coords.x}/${coords.y}`;
     },
     options: {
         noWrap: true,
