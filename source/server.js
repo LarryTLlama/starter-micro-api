@@ -7,6 +7,7 @@ const util = require('minecraft-server-util');
 const path = require('path');
 const axios = require('axios');
 const fs = require('fs')
+const request = require('request')
 const { getPlayers, updateStatus2, getMojangStat, getPosts, getPost, addError, updateStatus, deletePost, addPost, bedrockStat, javaStat } = require('./controllers/posts.js');
 console.log(`We're running on ${process.platform}`)
 const app = express();
@@ -107,6 +108,12 @@ app.get('/llama-iceways/assets/webfonts/:file', (req, res) => {
 app.get('/maps/:file', (req, res) => {
 	res.sendFile(path.join(__dirname, '../maps/' + req.params.file));
 })
+
+app.get('/maps/tiles/:z/:x/:y/.png', (req, res) => {
+	res.setHeader('Content-Type', 'image/apng')
+	request('https://web.peacefulvanilla.club/maps/tiles/World/' + req.params.z + '/' + req.params.x + '_' + req.params.y + '.png').pipe(res)
+})
+
 
 app.get('/maps/leaflet/:file', (req, res) => {
 	res.sendFile(path.join(__dirname, '../maps/leaflet/' + req.params.file));
