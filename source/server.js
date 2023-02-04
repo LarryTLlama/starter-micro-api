@@ -148,6 +148,21 @@ fs.readFile('arraytester2.txt', 'utf8', async function(err, content) {
 	/*res.json({result: PF.Util.expandPath(path)})*/
 })
 });
+
+const puppeteer = require("puppeteer");
+
+app.get('/pvc/screenshot/:world/:x/:z', async function (req, res) {
+	const browser = await puppeteer.launch();
+	const page = await browser.newPage();
+	await page.goto(`http://web.peacefulvanilla.club/maps#${req.params.world};flat;${req.params.x},64,${req.params.z};7`);
+	await page.waitForTimeout(3000);
+	await page.mouse.click(771, 27, {button: 'left'})
+	await page.mouse.click(707, 36, {button: 'left'})
+	await page.mouse.click(648, 42, {button: 'left'})
+	let scrnsht = await page.screenshot({encoding: "base64"});
+	await browser.close();
+	res.json({image: scrnsht});
+})
 app.get('/ice/short/:startx/:starty/:endx/:endy', function (req, res) {
 var PF = require('pathfinding');
 const p = req.params;
