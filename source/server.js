@@ -63,6 +63,18 @@ app.get('/llama-iceways/:file', (req, res) => {
 	res.sendFile(path.join(__dirname, '../llama-iceways/' + req.params.file));
 })
 
+app.get('/llama-iceways/da-cool-map/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../llama-iceways/da-cool-map/' + req.params.file));
+})
+
+app.get('/llama-iceways/da-cool-map/leaflet/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../llama-iceways/da-cool-map/leaflet/' + req.params.file));
+})
+
+app.get('/llama-iceways/da-cool-map/tiles/:zoom/:file', (req, res) => {
+	res.sendFile(path.join(__dirname, '../llama-iceways/da-cool-map/tiles/' + req.params.zoom + "/" + req.params.file));
+})
+
 // Images
 
 app.get('/llama-iceways/images/:file', (req, res) => {

@@ -1,0 +1,74 @@
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+    crossorigin=""/>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+ integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+ crossorigin=""></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+    
+    <style>
+        #map { 
+            height: 100%; 
+            width: 100%;
+        }
+        #coolButtons {
+            right: 5px;
+            bottom: 5px;
+            position: absolute;
+        }
+
+        .button1 {
+            padding: 16px;
+            border: 5px black;
+            color: white;
+            background-color: green;
+            position: absolute;
+            z-index: 5000000000000;
+            right: 5px;
+            bottom: 5px;
+            width: 70px;
+        }
+        .button2 {
+            padding: 16px;
+            border: 5px black;
+            color: white;
+            background-color: green;
+            position: absolute;
+            z-index: 5000000000000;
+            right: 5px;
+            bottom: 55px;
+            width: 70px;
+        }
+        .button3 {
+            padding: 16px;
+            border: 5px black;
+            color: white;
+            background-color: green;
+            position: absolute;
+            z-index: 5000000000000;
+            right: 5px;
+            bottom: 105px;
+            width: 70px;
+        }
+        input {
+            position: absolute;
+            z-index: 3000;
+            right: 90px;
+            bottom: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <script src="./index.js"></script>
+        <input id="colour" type="color"/>
+        <a><button class="button1">Llama</button></a>
+        <a><button class="button2">Boat</button></a>
+        <a><button class="button3">Steve</button></a>
+    <div id="map"></div>
+    <div id="coolButtons"></div>
+</body>
