@@ -7,6 +7,7 @@ const util = require('minecraft-server-util');
 const path = require('path');
 const axios = require('axios');
 const fs = require('fs')
+const cors = require("cors")
 const request = require('request')
 const { getPlayers, updateStatus2, getMojangStat, getPosts, getPost, addError, updateStatus, deletePost, addPost, bedrockStat, javaStat } = require('./controllers/posts.js');
 console.log(`We're running on ${process.platform}`)
@@ -18,6 +19,7 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 /** Takes care of JSON data */
 app.use(express.json());
+app.use(cors())
 
 /** RULES OF OUR API */
 app.use((req, res, next) => {
@@ -25,8 +27,6 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'local');
     // set the CORS headers
     res.header('Access-Control-Allow-Headers', 'origin, X-Requested-With,Content-Type,Accept, Authorization');
-    // set the CORS method headers
-	res.header('Access-Control-Allow-Origin', 'https://larrytllama.github.io');
     if (req.method === 'OPTIONS') {
         res.header('Access-Control-Allow-Methods', 'GET PATCH DELETE POST');
         return res.status(200).json({});
